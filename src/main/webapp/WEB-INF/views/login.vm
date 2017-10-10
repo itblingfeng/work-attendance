@@ -27,10 +27,10 @@
     <div class="login-box-body">
         <p class="login-box-msg">输入帐号以登入系统</p>
 
-        <form action="${rc.contextPath}/login/checkAccount" method="post" id="acountForm">
+        <form id="acountForm">
             <div class="form-group has-feedback">
                 <input type="email" class="form-control" placeholder="用户名" id="username" name="username">
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
                 <input type="password" class="form-control" placeholder="密码" id="password" name="password">
@@ -46,7 +46,11 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="button" class="btn btn-primary btn-block btn-flat" id="sub">登入</button>
+                    <button type="button" class="btn btn-primary btn-block btn-flat" title="提示"
+                            data-container="body" data-toggle="popover" data-placement="top"
+                            data-content=""  id="sub">
+                        登入
+                    </button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -65,23 +69,45 @@
 <script src="/static/plugins/iCheck/icheck.min.js"></script>
 <script>
     $(function () {
+
         $('#checkbox').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
         });
 
-
         $("#sub").click(function () {
+            $("#sub").popover('hide');
             var username = $("#username").val();
             var password = $("#password").val();
             if (username.length == 0 || password.length == 0) {
-                   alert("用户名或密码不能为空");
-//                 显现模态框
-
+                $("#sub").attr("data-content","用户名或密码不能为空");
+                $("#sub").popover('toggle');
+             var time =  setInterval(function(){
+                    $("#sub").popover('hide');
+                    clearInterval(time);
+                },2000);
             } else {
 //                  1.隐藏模态框
-                $("#acountForm").submit();
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "/login/checkAccount",
+                    data: $("#acountForm").serialize(),
+                    success: function (data) {
+                        if (data.status == 200) {
+                            location.href = "${rc.contextPath}/index";
+                        } else {
+//                            模态框显示帐号密码错误
+                            $("#sub").attr("data-content",data.msg);
+                            $("#sub").popover('toggle');
+                            var time =  setInterval(function(){
+                                $("#sub").popover('hide');
+                                clearInterval(time);
+                            },2000);
+                        }
+                    }
+                });
             }
 
         });
