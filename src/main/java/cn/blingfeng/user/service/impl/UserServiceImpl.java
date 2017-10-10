@@ -24,9 +24,10 @@ public class UserServiceImpl implements UserSerivce {
 //        将user的密码MD5加密后与password进行比较
         String md5Password = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
          if(md5Password.equals(realUser.getPassword())){
-             user.setPassword(null);
-             return WorkResult.ok(user);
+             realUser.setPassword(null);
+             return WorkResult.ok(realUser);
          }
          return WorkResult.error(400,"用户名或密码错误");
     }
+
 }
