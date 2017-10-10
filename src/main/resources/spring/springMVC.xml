@@ -37,5 +37,6 @@
         <property name="suffix" value=".vm"/>
         <property name="dateToolAttribute" value="date"/>
         <property name="contentType" value="text/html;charset=UTF-8"/>
+        <property name="requestContextAttribute" value="rc"/>
     </bean>
 </beans>
