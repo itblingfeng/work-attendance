@@ -39,4 +39,11 @@
         <property name="contentType" value="text/html;charset=UTF-8"/>
         <property name="requestContextAttribute" value="rc"/>
     </bean>
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/"/>
+            <bean class="cn.blingfeng.commons.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
