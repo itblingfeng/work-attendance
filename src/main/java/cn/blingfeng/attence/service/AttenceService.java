@@ -1,9 +1,9 @@
 package cn.blingfeng.attence.service;
 
-import cn.blingfeng.attence.pojo.Attend;
-
-import java.util.List;
+import cn.blingfeng.commons.utils.PageQueryBean;
+import cn.blingfeng.commons.vo.QueryVo;
 
 public interface AttenceService {
-     List<Attend> getAttendInfoByUserId(Long userId);
+
+     PageQueryBean getAttendInfoByUserId(QueryVo queryVo);
 }

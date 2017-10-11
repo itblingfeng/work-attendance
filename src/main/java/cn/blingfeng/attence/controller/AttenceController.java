@@ -2,10 +2,14 @@ package cn.blingfeng.attence.controller;
 
 import cn.blingfeng.attence.pojo.Attend;
 import cn.blingfeng.attence.service.AttenceService;
+import cn.blingfeng.commons.utils.PageQueryBean;
+import cn.blingfeng.commons.vo.QueryVo;
 import cn.blingfeng.user.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,16 +20,15 @@ import java.util.List;
 public class AttenceController {
     @Autowired
     private AttenceService attenceService;
+    /**
+     * @Author blingfeng
+     * @Date 2017/10/11/011
+     * @Description 根据QeuryVo查询考勤信息
+     **/
     @RequestMapping("/status")
-    public String attenceStatus(HttpServletRequest request) {
-        /**
-        * @Author blingfeng
-        * @Date 2017/10/11/011
-        * @Description 根据用户id查询用户的考勤信息
-        **/
-        User user = (User) request.getSession().getAttribute("userInfo");
-        List<Attend> attendInfo = attenceService.getAttendInfoByUserId(user.getId());
-        request.setAttribute("attendInfo",attendInfo);
+    public String attenceStatus(Model model, QueryVo queryVo) {
+        PageQueryBean pageQuery= attenceService.getAttendInfoByUserId(queryVo);
+        model.addAttribute("pageQuery",pageQuery);
         return "attence";
     }
 }

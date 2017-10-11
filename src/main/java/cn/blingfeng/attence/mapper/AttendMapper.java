@@ -1,6 +1,7 @@
 package cn.blingfeng.attence.mapper;
 
 import cn.blingfeng.attence.pojo.Attend;
+import cn.blingfeng.commons.vo.QueryVo;
 
 import java.util.List;
 
@@ -16,5 +17,8 @@ public interface AttendMapper {
     int updateByPrimaryKeySelective(Attend record);
 
     int updateByPrimaryKey(Attend record);
-    List<Attend> selectByUserId(Long userId);
+
+    int selectCountByQueryVo(QueryVo queryVo);
+
+    List<Attend> selectByQueryVo(QueryVo queryVo);
 }

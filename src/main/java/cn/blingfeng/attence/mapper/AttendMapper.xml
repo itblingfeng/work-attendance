@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.blingfeng.attence.mapper.AttendMapper" >
-  <resultMap id="BaseResultMap" type="cn.blingfeng.attence.pojo.Attend" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="user_id" property="userId" jdbcType="BIGINT" />
-    <result column="attend_date" property="attendDate" jdbcType="DATE" />
-    <result column="attend_week" property="attendWeek" jdbcType="TINYINT" />
-    <result column="attend_morning" property="attendMorning" jdbcType="TIME" />
-    <result column="attend_evening" property="attendEvening" jdbcType="TIME" />
-    <result column="absence" property="absence" jdbcType="INTEGER" />
-    <result column="attend_status" property="attendStatus" jdbcType="TINYINT" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="cn.blingfeng.attence.mapper.AttendMapper">
+    <resultMap id="BaseResultMap" type="cn.blingfeng.attence.pojo.Attend">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="attend_date" property="attendDate" jdbcType="DATE"/>
+        <result column="attend_week" property="attendWeek" jdbcType="TINYINT"/>
+        <result column="attend_morning" property="attendMorning" jdbcType="TIME"/>
+        <result column="attend_evening" property="attendEvening" jdbcType="TIME"/>
+        <result column="absence" property="absence" jdbcType="INTEGER"/>
+        <result column="attend_status" property="attendStatus" jdbcType="TINYINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, user_id, attend_date, attend_week, attend_morning, attend_evening, absence, attend_status
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from attend
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from attend
-    where user_id = #{userId}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from attend
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from attend
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.blingfeng.attence.pojo.Attend" >
+    <insert id="insert" parameterType="cn.blingfeng.attence.pojo.Attend">
     insert into attend (id, user_id, attend_date, 
       attend_week, attend_morning, attend_evening, 
       absence, attend_status)
@@ -38,89 +32,89 @@
       #{attendWeek,jdbcType=TINYINT}, #{attendMorning,jdbcType=TIME}, #{attendEvening,jdbcType=TIME}, 
       #{absence,jdbcType=INTEGER}, #{attendStatus,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="cn.blingfeng.attence.pojo.Attend" >
-    insert into attend
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="attendDate != null" >
-        attend_date,
-      </if>
-      <if test="attendWeek != null" >
-        attend_week,
-      </if>
-      <if test="attendMorning != null" >
-        attend_morning,
-      </if>
-      <if test="attendEvening != null" >
-        attend_evening,
-      </if>
-      <if test="absence != null" >
-        absence,
-      </if>
-      <if test="attendStatus != null" >
-        attend_status,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="attendDate != null" >
-        #{attendDate,jdbcType=DATE},
-      </if>
-      <if test="attendWeek != null" >
-        #{attendWeek,jdbcType=TINYINT},
-      </if>
-      <if test="attendMorning != null" >
-        #{attendMorning,jdbcType=TIME},
-      </if>
-      <if test="attendEvening != null" >
-        #{attendEvening,jdbcType=TIME},
-      </if>
-      <if test="absence != null" >
-        #{absence,jdbcType=INTEGER},
-      </if>
-      <if test="attendStatus != null" >
-        #{attendStatus,jdbcType=TINYINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.blingfeng.attence.pojo.Attend" >
-    update attend
-    <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="attendDate != null" >
-        attend_date = #{attendDate,jdbcType=DATE},
-      </if>
-      <if test="attendWeek != null" >
-        attend_week = #{attendWeek,jdbcType=TINYINT},
-      </if>
-      <if test="attendMorning != null" >
-        attend_morning = #{attendMorning,jdbcType=TIME},
-      </if>
-      <if test="attendEvening != null" >
-        attend_evening = #{attendEvening,jdbcType=TIME},
-      </if>
-      <if test="absence != null" >
-        absence = #{absence,jdbcType=INTEGER},
-      </if>
-      <if test="attendStatus != null" >
-        attend_status = #{attendStatus,jdbcType=TINYINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.blingfeng.attence.pojo.Attend" >
+    <insert id="insertSelective" parameterType="cn.blingfeng.attence.pojo.Attend">
+        insert into attend
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="attendDate != null">
+                attend_date,
+            </if>
+            <if test="attendWeek != null">
+                attend_week,
+            </if>
+            <if test="attendMorning != null">
+                attend_morning,
+            </if>
+            <if test="attendEvening != null">
+                attend_evening,
+            </if>
+            <if test="absence != null">
+                absence,
+            </if>
+            <if test="attendStatus != null">
+                attend_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="attendDate != null">
+                #{attendDate,jdbcType=DATE},
+            </if>
+            <if test="attendWeek != null">
+                #{attendWeek,jdbcType=TINYINT},
+            </if>
+            <if test="attendMorning != null">
+                #{attendMorning,jdbcType=TIME},
+            </if>
+            <if test="attendEvening != null">
+                #{attendEvening,jdbcType=TIME},
+            </if>
+            <if test="absence != null">
+                #{absence,jdbcType=INTEGER},
+            </if>
+            <if test="attendStatus != null">
+                #{attendStatus,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.blingfeng.attence.pojo.Attend">
+        update attend
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="attendDate != null">
+                attend_date = #{attendDate,jdbcType=DATE},
+            </if>
+            <if test="attendWeek != null">
+                attend_week = #{attendWeek,jdbcType=TINYINT},
+            </if>
+            <if test="attendMorning != null">
+                attend_morning = #{attendMorning,jdbcType=TIME},
+            </if>
+            <if test="attendEvening != null">
+                attend_evening = #{attendEvening,jdbcType=TIME},
+            </if>
+            <if test="absence != null">
+                absence = #{absence,jdbcType=INTEGER},
+            </if>
+            <if test="attendStatus != null">
+                attend_status = #{attendStatus,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.blingfeng.attence.pojo.Attend">
     update attend
     set user_id = #{userId,jdbcType=BIGINT},
       attend_date = #{attendDate,jdbcType=DATE},
@@ -131,4 +125,24 @@
       attend_status = #{attendStatus,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+    <select id="selectCountByQueryVo" parameterType="cn.blingfeng.commons.vo.QueryVo" resultType="Integer">
+        select count(0)
+        from attend
+        where user_id = #{userId}
+        <if test="startDate !=null and endDate !=null">
+            and attend_date
+            between #{startDate} and #{endDate}
+        </if>
+    </select>
+    <select id="selectByQueryVo" parameterType="cn.blingfeng.commons.vo.QueryVo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from attend
+        where user_id = #{userId}
+        <if test="startDate !=null and endDate !=null">
+            and attend_date
+            BETWEEN #{startDate} and #{endDate}
+        </if>
+        Limit #{startRow},#{pageSize}
+    </select>
 </mapper>
