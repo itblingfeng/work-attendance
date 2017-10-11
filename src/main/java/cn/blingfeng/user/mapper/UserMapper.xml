@@ -103,8 +103,8 @@
       head_image = #{headImage,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-    <select id="selectUserByUsername" parameterType="String"  resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
+    <select id="selectUserByUsername" parameterType="String" resultType="cn.blingfeng.user.pojo.User">
+    select id,username,password
     from user
     where username = #{username}
   </select>
