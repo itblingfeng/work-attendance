@@ -94,8 +94,9 @@ desired effect
                                 </tr>
                                 </thead>
                                 <tbody>
+                                    #foreach($attend in ${attendInfo})
                                 <tr>
-                                    <td>${rc.getAttribute("attendInfo")}</td>
+                                    <td></td>
                                     <td>09:30</td>
                                     <td>17:30</td>
                                     <td>10:21</td>
@@ -107,6 +108,8 @@ desired effect
                                     <td></td>
                                     <td><a>补签</a></td>
                                 </tr>
+
+                                #end
                                 </tbody>
                             </table>
                         </div>
