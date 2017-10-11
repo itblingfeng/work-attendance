@@ -24,9 +24,7 @@ public class LoginController {
     @ResponseBody
     public WorkResult checkAccount(User user, HttpServletRequest request) {
         WorkResult result = userService.checkAccount(user);
-//        若帐号存在
-        //        将用户信息添加进session中
-// 返回成功
+
         if (result.getStatus() == 200) {
             request.getSession().setAttribute("userInfo", result.getData());
         }
