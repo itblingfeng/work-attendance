@@ -268,7 +268,7 @@ desired effect
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/examples/login.html"><i class="fa fa-calendar-times-o text-red"></i> 打卡</a>
+                        <li><a href="/attence/status"><i class="fa fa-calendar-times-o text-red"></i> 打卡</a>
                         </li>
                         <li><a href="pages/examples/login.html"><i class="fa fa-spinner text-blue"></i> 审批情况</a></li>
                     </ul>
