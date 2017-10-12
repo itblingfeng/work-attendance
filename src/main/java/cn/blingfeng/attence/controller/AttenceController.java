@@ -25,10 +25,15 @@ public class AttenceController {
      * @Date 2017/10/11/011
      * @Description 根据QeuryVo查询考勤信息
      **/
-    @RequestMapping("/status")
-    public String attenceStatus(Model model, QueryVo queryVo) {
+    @RequestMapping("/attenceList")
+    @ResponseBody
+    public PageQueryBean attenceStatus(QueryVo queryVo,HttpServletRequest request) {
+
         PageQueryBean pageQuery= attenceService.getAttendInfoByUserId(queryVo);
-        model.addAttribute("pageQuery",pageQuery);
+        return pageQuery;
+    }
+    @RequestMapping()
+    public String attence(){
         return "attence";
     }
 }

@@ -3,6 +3,7 @@ package cn.blingfeng.attence.mapper;
 import cn.blingfeng.attence.pojo.Attend;
 import cn.blingfeng.commons.vo.QueryVo;
 
+import java.util.Date;
 import java.util.List;
 
 public interface AttendMapper {
@@ -21,4 +22,7 @@ public interface AttendMapper {
     int selectCountByQueryVo(QueryVo queryVo);
 
     List<Attend> selectByQueryVo(QueryVo queryVo);
+
+    void updateExceptionAttend(String morning , String evening);
+
 }

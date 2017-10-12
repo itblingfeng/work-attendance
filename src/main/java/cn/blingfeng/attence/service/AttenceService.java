@@ -6,4 +6,6 @@ import cn.blingfeng.commons.vo.QueryVo;
 public interface AttenceService {
 
      PageQueryBean getAttendInfoByUserId(QueryVo queryVo);
+
+     void checkAttend();
 }

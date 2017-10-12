@@ -145,4 +145,13 @@
         </if>
         Limit #{startRow},#{pageSize}
     </select>
+    <update id="updateExceptionAttend" >
+        UPDATE attend
+        SET attend_status = 2
+        WHERE
+	    attend_morning IS NULL
+        OR attend_evening IS NULL
+        OR attend_morning >= #{0}
+        OR attend_evening &lt; #{1}
+    </update>
 </mapper>

@@ -2,6 +2,7 @@ package cn.blingfeng.user.mapper;
 
 import cn.blingfeng.user.pojo.User;
 
+import java.util.Date;
 import java.util.List;
 
 public interface UserMapper {
@@ -18,4 +19,9 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     List<User> selectUserByUsername(String username);
+
+    List<Long> selectNoAttendUser();
+
+
+
 }

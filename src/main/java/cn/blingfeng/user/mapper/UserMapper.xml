@@ -109,4 +109,19 @@
         from user
         where username = #{username}
     </select>
+    <select id="selectNoAttendUser" resultType="Long">
+    SELECT
+	u.id
+    FROM
+	USER u where u.id NOT IN (
+	SELECT
+		user_id
+	FROM
+		attend
+	WHERE
+		attend_date = (SELECT
+	CURRENT_DATE ())
+)
+    </select>
+
 </mapper>
