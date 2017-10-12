@@ -145,7 +145,7 @@
         </if>
         Limit #{startRow},#{pageSize}
     </select>
-    <update id="updateExceptionAttend" >
+    <update id="updateExceptionAttend">
         UPDATE attend
         SET attend_status = 2
         WHERE

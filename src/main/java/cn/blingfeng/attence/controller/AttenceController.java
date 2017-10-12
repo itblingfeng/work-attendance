@@ -20,6 +20,7 @@ import java.util.List;
 public class AttenceController {
     @Autowired
     private AttenceService attenceService;
+
     /**
      * @Author blingfeng
      * @Date 2017/10/11/011
@@ -27,13 +28,19 @@ public class AttenceController {
      **/
     @RequestMapping("/attenceList")
     @ResponseBody
-    public PageQueryBean attenceStatus(QueryVo queryVo,HttpServletRequest request) {
-
-        PageQueryBean pageQuery= attenceService.getAttendInfoByUserId(queryVo);
+    public PageQueryBean attenceStatus(QueryVo queryVo, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("userInfo");
+        String[] queryDate = queryVo.getRangeDate().split("/");
+        queryVo.setStartDate(queryDate[0]);
+        queryVo.setEndDate(queryDate[1]);
+        queryVo.setUserId(user.getId());
+        PageQueryBean pageQuery = attenceService.getAttendInfoByUserId(queryVo);
+        pageQuery.setUserId(user.getId());
         return pageQuery;
     }
+
     @RequestMapping()
-    public String attence(){
+    public String attence() {
         return "attence";
     }
 }

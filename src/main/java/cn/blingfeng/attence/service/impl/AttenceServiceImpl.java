@@ -24,7 +24,7 @@ public class AttenceServiceImpl implements AttenceService {
     private AttendMapper attendMapper;
     @Autowired
     private UserMapper userMapper;
-//    1为正常 2为异常
+    //    1为正常 2为异常
     private final Byte status = 2;
 
     private final Integer absence = 480;
@@ -33,7 +33,7 @@ public class AttenceServiceImpl implements AttenceService {
 
     private final String evening = "18:00:00";
 
-    private  Byte week = 2;
+    private Byte week = 2;
 
 
     @Override
@@ -43,13 +43,13 @@ public class AttenceServiceImpl implements AttenceService {
             * */
         PageQueryBean pageQueryBean = new PageQueryBean();
         int count = attendMapper.selectCountByQueryVo(queryVo);
-        if (count <= 0)
-            return null;
-        List<Attend> attendList = attendMapper.selectByQueryVo(queryVo);
         pageQueryBean.setCurrentPage(queryVo.getCurrentPage());
         pageQueryBean.setTotalRows(count);
-        pageQueryBean.setItems(attendList);
         pageQueryBean.setPageSize(queryVo.getPageSize());
+        if (count > 0) {
+            List<Attend> attendList = attendMapper.selectByQueryVo(queryVo);
+            pageQueryBean.setItems(attendList);
+        }
         return pageQueryBean;
     }
 
@@ -63,7 +63,7 @@ public class AttenceServiceImpl implements AttenceService {
 //        查询出当天所有未签到的用户
         List<Long> userIdList = userMapper.selectNoAttendUser();
 //        插入一条记录
-        for(Long userId :userIdList){
+        for (Long userId : userIdList) {
             Attend attend = new Attend();
             attend.setUserId(userId);
             attend.setAttendDate(new Date());
@@ -72,12 +72,9 @@ public class AttenceServiceImpl implements AttenceService {
             attendMapper.insertSelective(attend);
         }
 //        更新所有异常的信息
-        attendMapper.updateExceptionAttend(morning,evening);
+        attendMapper.updateExceptionAttend(morning, evening);
 
     }
-
-
-
 
 
 }

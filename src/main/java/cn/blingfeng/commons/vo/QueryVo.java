@@ -9,6 +9,15 @@ import cn.blingfeng.commons.utils.PageQueryBean;
 public class QueryVo extends PageQueryBean{
     private String startDate;
     private String endDate;
+    private String rangeDate;
+
+    public String getRangeDate() {
+        return rangeDate;
+    }
+
+    public void setRangeDate(String rangeDate) {
+        this.rangeDate = rangeDate;
+    }
 
     public String getStartDate() {
         return startDate;
