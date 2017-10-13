@@ -143,6 +143,9 @@
             and attend_date
             BETWEEN #{startDate} and #{endDate}
         </if>
+        <if test="attendStatus !=null">
+            and attend_status = #{attendStatus}
+        </if>
         Limit #{startRow},#{pageSize}
     </select>
     <update id="updateExceptionAttend">

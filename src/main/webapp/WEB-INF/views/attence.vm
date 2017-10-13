@@ -137,7 +137,7 @@ desired effect
                             <div class="form-group">
                                 <label for="user_id" class="col-sm-3 control-label">用户ID</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="user_id" name="user_id" value="{userId}"
+                                    <input type="text" class="form-control" id="user_id" name="user_id" value="${userInfo.id}"
                                     placeholder="请输入用户ID">
                                 </div>
                             </div>
@@ -371,7 +371,6 @@ desired effect
                                 return row_col.row;
                             }
                         },
-                        {"data": "userId" , "visible" : false },
                         {
                             "data": "attendDate",
                             render: function (data, type, full) {

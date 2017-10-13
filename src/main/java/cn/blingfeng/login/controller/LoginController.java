@@ -30,4 +30,10 @@ public class LoginController {
         }
         return result;
     }
+
+    @RequestMapping("/signOut")
+    public String signOut(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "redirect:";
+    }
 }

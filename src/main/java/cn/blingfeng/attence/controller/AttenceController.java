@@ -35,7 +35,6 @@ public class AttenceController {
         queryVo.setEndDate(queryDate[1]);
         queryVo.setUserId(user.getId());
         PageQueryBean pageQuery = attenceService.getAttendInfoByUserId(queryVo);
-        pageQuery.setUserId(user.getId());
         return pageQuery;
     }
 

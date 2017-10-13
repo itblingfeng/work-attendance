@@ -49,6 +49,7 @@ public class AttenceServiceImpl implements AttenceService {
         if (count > 0) {
             List<Attend> attendList = attendMapper.selectByQueryVo(queryVo);
             pageQueryBean.setItems(attendList);
+            pageQueryBean.setUserId(queryVo.getUserId());
         }
         return pageQueryBean;
     }
