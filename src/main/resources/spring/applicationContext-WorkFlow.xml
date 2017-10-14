@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+   <bean class="org.activiti.spring.SpringProcessEngineConfiguration" id="processEngineConfiguration">
+       <!--配置数据源-->
+       <property name="dataSource" ref="dataSource"/>
+       <!--数据库表更新，若数据库中不存在表，则自动创建-->
+       <property name="databaseSchemaUpdate" value="true"/>
+       <!--定时工作流-->
+       <property name="jobExecutorActivate" value="false"/>
+       <!--事务管理-->
+       <property name="transactionManager" ref="txManager"/>
+       <!--解决乱码-->
+       <property name="activityFontName" value="宋体"/>
+       <property name="labelFontName" value="宋体"/>
+       <!--部署流程图-->
+       <property name="deploymentResources">
+           <list>
+               <value>classpath:workflow/*.bmpn</value>
+           </list>
+       </property>
+   </bean>
+    <bean class="org.activiti.spring.ProcessEngineFactoryBean" id="processEngine">
+        <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
+    </bean>
+    <!--调用processEngin中的方法 对7个服务进行注入 在service层中直接自动注入即可-->
+    <!--任务服务-->
+    <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService"></bean>
+    <!--表单服务-->
+    <bean id="formService" factory-bean="processEngine" factory-method="getFormService"></bean>
+    <!--历史数据服务-->
+    <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService"></bean>
+    <!--身份认证服务-->
+    <bean id="identityService" factory-bean="processEngine" factory-method="getIdentityService"></bean>
+    <!--数据存储服务-->
+    <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService"></bean>
+    <!--管理服务-->
+    <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService"></bean>
+    <!--运行时服务-->
+    <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService"></bean>
+</beans>

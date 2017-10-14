@@ -50,4 +50,5 @@
             <bean class="cn.blingfeng.commons.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+
 </beans>

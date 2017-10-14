@@ -137,7 +137,7 @@ desired effect
                             <div class="form-group">
                                 <label for="user_id" class="col-sm-3 control-label">用户ID</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="user_id" name="user_id" value="${userInfo.id}"
+                                    <input type="text" class="form-control" id="user_id" name="user_id" value="${userInfo.id}" readonly="true"
                                     placeholder="请输入用户ID">
                                 </div>
                             </div>
@@ -145,7 +145,7 @@ desired effect
                             <div class="form-group">
                                 <label for="lastname" class="col-sm-3 control-label">用户名</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="user_name" value="" id="user_name"
+                                    <input type="text" class="form-control" name="user_name" value="${userInfo.username}" readonly="true" id="user_name"
                                            placeholder="用户名">
                                 </div>
                             </div>
@@ -199,6 +199,7 @@ desired effect
 <script src="/static/plugins/daterangepicker/moment.min.js"></script>
 <script src="/static/plugins/daterangepicker/daterangepicker.js"></script>
 <script src="/static/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
+<script src="/static/attend/reattend.js"></script>
 <script>
     //Date range as a button
     $('#rangeDate').daterangepicker(
