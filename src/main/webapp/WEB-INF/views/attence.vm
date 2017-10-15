@@ -120,7 +120,7 @@ desired effect
     </div>
     <!-- /.content-wrapper -->
     <!-- 模态框示例（Modal） -->
-    <form method="post" action="" class="form-horizontal" role="form" id="form_data" onsubmit="return check_form()" style="margin: 20px;">
+    <form method="post" action="${rc.contextPath}/workflow/reAttend" class="form-horizontal" role="form" id="form_data" onsubmit="return check_form()" style="margin: 20px;">
         <div class="modal fade" id="reAttendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
