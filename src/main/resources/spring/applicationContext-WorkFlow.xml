@@ -17,7 +17,7 @@
        <!--部署流程图-->
        <property name="deploymentResources">
            <list>
-               <value>classpath:workflow/*.bmpn</value>
+               <value>classpath:workflow/*.bpmn</value>
            </list>
        </property>
    </bean>
