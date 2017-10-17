@@ -77,5 +77,11 @@ public class AttenceServiceImpl implements AttenceService {
 
     }
 
+    @Override
+    public Attend getAttendByAttendId(Long id) {
+        Attend attend = attendMapper.selectByPrimaryKey(id);
+        return attend;
+    }
+
 
 }

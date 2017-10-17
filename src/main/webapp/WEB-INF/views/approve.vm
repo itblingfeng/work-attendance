@@ -98,14 +98,14 @@ desired effect
                     <table id="attend_grid" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>序号</th>
-                            <th>考勤日期</th>
-                            <th>星期</th>
-                            <th>早打卡</th>
-                            <th>晚打卡</th>
-                            <th>缺勤时长</th>
-                            <th>考勤状态</th>
-                            <th>操作</th>
+                            <th width="4.6%">序号</th>
+                            <th width="8.8%">考勤日期</th>
+                            <th width="7.5%">早打卡</th>
+                            <th width="7.5%">晚打卡</th>
+                            <th width="8.8%">考勤状态</th>
+                            <th width="7.5%">申请人</th>
+                            <th width="43.3%">备注</th>
+                            <th width="12%">操作</th>
                         </tr>
                         </thead>
                     </table>
@@ -119,67 +119,6 @@ desired effect
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    <!-- 模态框示例（Modal） -->
-    <form method="post" action="${rc.contextPath}/workflow/reAttend" class="form-horizontal" role="form" id="form_data"
-          onsubmit="return check_form()" style="margin: 20px;">
-        <div class="modal fade" id="reAttendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel">
-                            用户信息
-                        </h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <label for="user_id" class="col-sm-3 control-label">用户ID</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="user_id"
-                                           value="${userInfo.id}" readonly="true"
-                                           placeholder="请输入用户ID">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="lastname" class="col-sm-3 control-label">用户名</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control"  value="${userInfo.username}"
-                                           readonly="true" id="username"
-                                           placeholder="用户名">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="remark" class="col-sm-3 control-label">备注</label>
-                                <div class="col-sm-9">
-                                <textarea class="form-control" name="comments" value="" id="comments"
-                                          placeholder="备注">
-
-                                </textarea>
-                                </div>
-                            </div>
-                        </form>
-                        <input type="hidden" value="" name="attendId" id="attendId">
-                        <input type="hidden" value="" name="attendDate_string" id="attendDate_string">
-                        <input type="hidden" value="" name="attend">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            提交
-                        </button>
-                        <span id="tip"> </span>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
-        </div>
-    </form>
 
 
 </div>
@@ -274,13 +213,21 @@ desired effect
         todayHighlight: true
     });
 
-    function reAttend(data) {
-        $("#reAttendModal").modal('show');
-        $("#attendId").val(data.id);
-        $("#attendDate_string").val(new Date(data.attendDate).format("yyyy-MM-dd"));
-
-
+    function approve(result, taskId) {
+        $.ajax({
+            type: "POST",
+            url: "/workflow/approve",
+            dataType: "json",
+            conteentType :"application/json",
+            data: {"taskId" : taskId,"approve_result":result},
+            success: function (data) {
+                if(data.status==200){
+                location.href = "${rc.contextPath}/attence/approve";
+                }
+            }
+        })
     }
+
 
     var week_CN = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
 
@@ -349,7 +296,7 @@ desired effect
                         //ajax请求数据
                         $.ajax({
                             type: "GET",
-                            url: "/attence/attenceList",
+                            url: "/workflow/list",
                             cache: false, //禁用缓存
                             data: param, //传入组装的参数
                             dataType: "json",
@@ -385,14 +332,9 @@ desired effect
                                 return new Date(data).format("yyyy-MM-dd");
                             }
                         },
+
                         {
-                            "data": "attendWeek",
-                            render: function (data, type, full) {
-                                return week_CN[data - 1];
-                            }
-                        },
-                        {
-                            "data": "attendMorning",
+                            "data": "reAttendMor",
                             render: function (data, type, full) {
                                 if (data != null) {
                                     return new Date(data).format("hh:mm:ss");
@@ -402,7 +344,7 @@ desired effect
                             }
                         },
                         {
-                            "data": "attendEvening",
+                            "data": "reAttendEve",
                             render: function (data, type, full) {
                                 if (data != null) {
                                     return new Date(data).format("hh:mm:ss");
@@ -411,9 +353,7 @@ desired effect
                                 }
                             }
                         },
-                        {
-                            "data": "absence"
-                        },
+
                         {
                             "data": "attendStatus",
                             render: function (data, type, full) {
@@ -424,18 +364,22 @@ desired effect
                                 }
                             }
                         }
-                        ,
+                        , {
+                            "data": "reAttendStarter",
+                            render: function (data, type, full) {
+                                return data;
+                            }
+                        },
+                        {
+                            "data": "comments",
+                            render: function (data, type, full) {
+                                return data;
+                            }
+                        },
                         {
                             "data": "操作列",
                             render: function (data, type, full) {
-                                if (full.attendStatus == 2) {
-                                    return '<button type="button" class="btn btn-info"  onclick="return reAttend(' + JSON.stringify(full).replace(/\"/g, "'") + ')" >补签</button>'
-                                } else if(full.attendStatus ==0){
-                                    return '<font color="ffcc33">处理中</font>';
-                                }else{
-                                    return "";
-                                }
-
+                                return '<button type="button" class="btn btn-success"  onclick="return approve(' + true + ',' + full.taskId + ')" >同意</button>' + '&nbsp;' + '<button type="button" class="btn btn-danger"  onclick="return approve('+false+','+full.taskId+')" >拒绝</button>'
                             }
                         }
                     ]
@@ -444,6 +388,7 @@ desired effect
 
 
         //此处需调用api()方法,否则返回的是JQuery对象而不是DataTables的API对象
+
     });
 
 </script>

@@ -1,5 +1,6 @@
 package cn.blingfeng.commons.utils;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  *
  * @author weidc
  */
-public class PageQueryBean {
+public class PageQueryBean implements Serializable{
 
     private static final int DEFAULT_PAGE_SIZE = 10;
     /**

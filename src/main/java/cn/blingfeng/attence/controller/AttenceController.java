@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 /**
  * @author : blingfeng
  * @date : 2017/10/15
@@ -38,5 +37,9 @@ public class AttenceController {
     @RequestMapping()
     public String attence() {
         return "attence";
+    }
+    @RequestMapping("/approve")
+    public String approve(){
+        return "approve";
     }
 }
