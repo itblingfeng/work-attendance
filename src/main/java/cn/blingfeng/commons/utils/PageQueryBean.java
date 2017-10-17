@@ -46,8 +46,9 @@ public class PageQueryBean {
     }
 
     public final Integer getStartRow() {
-        if (startRow == null)
+        if (startRow == null) {
             startRow = (currentPage == null ? 0 : (currentPage - 1) * getPageSize());
+        }
         return startRow;
     }
 

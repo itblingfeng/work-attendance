@@ -57,7 +57,7 @@ desired effect
 -->
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-#include("common.vm")
+    #include("common.vm")
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -120,8 +120,10 @@ desired effect
     </div>
     <!-- /.content-wrapper -->
     <!-- 模态框示例（Modal） -->
-    <form method="post" action="${rc.contextPath}/workflow/reAttend" class="form-horizontal" role="form" id="form_data" onsubmit="return check_form()" style="margin: 20px;">
-        <div class="modal fade" id="reAttendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <form method="post" action="${rc.contextPath}/workflow/reAttend" class="form-horizontal" role="form" id="form_data"
+          onsubmit="return check_form()" style="margin: 20px;">
+        <div class="modal fade" id="reAttendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -137,43 +139,41 @@ desired effect
                             <div class="form-group">
                                 <label for="user_id" class="col-sm-3 control-label">用户ID</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="user_id" name="user_id" value="${userInfo.id}" readonly="true"
-                                    placeholder="请输入用户ID">
+                                    <input type="text" class="form-control" id="user_id" name="user_id"
+                                           value="${userInfo.id}" readonly="true"
+                                           placeholder="请输入用户ID">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="lastname" class="col-sm-3 control-label">用户名</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="user_name" value="${userInfo.username}" readonly="true" id="user_name"
+                                    <input type="text" class="form-control" name="username" value="${userInfo.username}"
+                                           readonly="true" id="username"
                                            placeholder="用户名">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="lastname" class="col-sm-3 control-label">地址</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="address" value="" id="address"
-                                           placeholder="地址">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="remark" class="col-sm-3 control-label">备注</label>
                                 <div class="col-sm-9">
-                                <textarea  class="form-control"  name="remark" value="{remark}" id="remark"
-                                           placeholder="备注">
+                                <textarea class="form-control" name="comments" value="" id="comments"
+                                          placeholder="备注">
 
                                 </textarea>
                                 </div>
                             </div>
                         </form>
+                        <input type="hidden" value="" name="attendId" id="attendId">
+                        <input type="hidden" value="" name="attendDate" id="attendDate">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                         </button>
                         <button type="submit" class="btn btn-primary">
                             提交
-                        </button><span id="tip"> </span>
+                        </button>
+                        <span id="tip"> </span>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
@@ -214,8 +214,8 @@ desired effect
                     monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
                         '七月', '八月', '九月', '十月', '十一月', '十二月'],
                     firstDay: 1,
-                    format:"YYYY-MM-DD",
-                    separator:"/",
+                    format: "YYYY-MM-DD",
+                    separator: "/",
                 },
 
                 ranges: {
@@ -272,9 +272,12 @@ desired effect
         language: 'zh-CN',
         todayHighlight: true
     });
+
     function reAttend(data) {
-        alert(data.id+data.attendDate);
         $("#reAttendModal").modal('show');
+        $("#attendId").val(data.id);
+        $("#attendDate").val(data.attendDate);
+
     }
 
     var week_CN = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
@@ -284,6 +287,7 @@ desired effect
     function attendQuery() {
         table.ajax.reload();
     }
+
     $(function () {
         //提示信息
         $.fn.dataTable.ext.errMode = 'none';
@@ -367,8 +371,9 @@ desired effect
                     },
                     //列表表头字段
                     columns: [
-                        {   "data": "seq",
-                            render: function (data, type, full,row_col) {
+                        {
+                            "data": "seq",
+                            render: function (data, type, full, row_col) {
                                 return row_col.row;
                             }
                         },
@@ -387,9 +392,9 @@ desired effect
                         {
                             "data": "attendMoring",
                             render: function (data, type, full) {
-                                if(data!=null){
+                                if (data != null) {
                                     return new Date(data).format("hh:mm:ss");
-                                }else{
+                                } else {
                                     return "";
                                 }
                             }
@@ -397,9 +402,9 @@ desired effect
                         {
                             "data": "attendEvening",
                             render: function (data, type, full) {
-                                if(data!=null){
+                                if (data != null) {
                                     return new Date(data).format("hh:mm:ss");
-                                }else{
+                                } else {
                                     return "";
                                 }
                             }
@@ -410,9 +415,9 @@ desired effect
                         {
                             "data": "attendStatus",
                             render: function (data, type, full) {
-                                if(data==1){
+                                if (data == 1) {
                                     return "<span style='color: green'>正常</span>";
-                                }else{
+                                } else {
                                     return "<span style='color: red'>异常</span>";
                                 }
                             }
@@ -421,9 +426,9 @@ desired effect
                         {
                             "data": "操作列",
                             render: function (data, type, full) {
-                                if(full.attendStatus==2){
-                                    return  '<button type="button" class="btn btn-info"  onclick="return reAttend('+JSON.stringify(full).replace(/\"/g,"'")+')" >补签</button>'
-                                }else {
+                                if (full.attendStatus == 2) {
+                                    return '<button type="button" class="btn btn-info"  onclick="return reAttend(' + JSON.stringify(full).replace(/\"/g, "'") + ')" >补签</button>'
+                                } else {
                                     return "";
                                 }
 

@@ -1,9 +1,9 @@
-function check_form(){
-   var address = $("#address").val();
-   if(address==""){
-       alert("地址不能为空！");
-       return false;
-   }
+function check_form() {
+    var comments = $("#comments").val();
+    if (comments == "") {
+        alert("备注不能为空！");
+        return false;
+    }
 
-   return true;
+    return true;
 }

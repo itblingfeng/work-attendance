@@ -18,8 +18,9 @@ public class UserServiceImpl implements UserSerivce {
     @Override
     public WorkResult checkAccount(User user) {
         List<User> userList = userMapper.selectUserByUsername(user.getUsername());
-        if (userList == null || userList.size() == 0)
-            return WorkResult.error(400,"用户名或密码错误");
+        if (userList == null || userList.size() == 0) {
+            return WorkResult.error(400, "用户名或密码错误");
+        }
         User realUser = userList.get(0);
 //        将user的密码MD5加密后与password进行比较
         String md5Password = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());

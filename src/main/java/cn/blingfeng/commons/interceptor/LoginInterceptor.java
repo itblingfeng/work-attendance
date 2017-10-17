@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class LoginInterceptor implements HandlerInterceptor {
+/**    放行登入入口字符串  */
+    private final String PASS_LOGIN = "/login";
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        if (httpServletRequest.getRequestURI().contains("/login")) {
+        if (httpServletRequest.getRequestURI().contains(PASS_LOGIN)) {
             return true;
         }
         User user = (User) httpServletRequest.getSession().getAttribute("userInfo");
@@ -18,7 +20,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
 //        如果没有登录则转到登录页面
-        httpServletRequest.getRequestDispatcher("/login").forward(httpServletRequest,httpServletResponse);
+        httpServletRequest.getRequestDispatcher(PASS_LOGIN).forward(httpServletRequest,httpServletResponse);
         return false;
     }
 

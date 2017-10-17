@@ -24,7 +24,7 @@ public class AttenceServiceImpl implements AttenceService {
     private AttendMapper attendMapper;
     @Autowired
     private UserMapper userMapper;
-    //    1为正常 2为异常
+    /**    1为正常 2为异常 */
     private final Byte status = 2;
 
     private final Integer absence = 480;

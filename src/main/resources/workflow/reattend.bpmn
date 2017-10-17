@@ -5,20 +5,22 @@
     <userTask activiti:exclusive="true" id="reattend_dm_approve" name="部门经理审核"/>
     <endEvent id="_4" name="EndEvent"/>
     <userTask activiti:exclusive="true" id="reattend_gm_approve" name="总经理审核"/>
-    <sequenceFlow id="_6" sourceRef="reattend_start" targetRef="reattend_dm_approve"/>
     <sequenceFlow id="_7" sourceRef="reattend_dm_approve" targetRef="reattend_gm_approve"/>
     <sequenceFlow id="_8" sourceRef="reattend_gm_approve" targetRef="_4"/>
+    <userTask activiti:exclusive="true" id="reattend_user" name="用户补签"/>
+    <sequenceFlow id="_3" sourceRef="reattend_user" targetRef="reattend_dm_approve"/>
+    <sequenceFlow id="_5" sourceRef="reattend_start" targetRef="reattend_user"/>
   </process>
   <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
     <bpmndi:BPMNPlane bpmnElement="reattend">
       <bpmndi:BPMNShape bpmnElement="reattend_start" id="Shape-reattend_start">
-        <omgdc:Bounds height="32.0" width="32.0" x="325.0" y="85.0"/>
+        <omgdc:Bounds height="32.0" width="32.0" x="320.0" y="25.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="reattend_dm_approve" id="Shape-reattend_dm_approve">
-        <omgdc:Bounds height="55.0" width="85.0" x="300.0" y="210.0"/>
+        <omgdc:Bounds height="55.0" width="85.0" x="300.0" y="265.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
@@ -35,21 +37,34 @@
           <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="_2" targetElement="_3">
-        <omgdi:waypoint x="341.0" y="117.0"/>
-        <omgdi:waypoint x="341.0" y="210.0"/>
+      <bpmndi:BPMNShape bpmnElement="reattend_user" id="Shape-reattend_user">
+        <omgdc:Bounds height="55.0" width="85.0" x="295.0" y="150.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_3" id="BPMNEdge__3" sourceElement="_2" targetElement="reattend_dm_approve">
+        <omgdi:waypoint x="340.0" y="205.0"/>
+        <omgdi:waypoint x="340.0" y="265.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="_3" targetElement="_5">
-        <omgdi:waypoint x="342.5" y="265.0"/>
+      <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="reattend_start" targetElement="_2">
+        <omgdi:waypoint x="336.0" y="57.0"/>
+        <omgdi:waypoint x="336.0" y="150.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="reattend_dm_approve" targetElement="reattend_gm_approve">
+        <omgdi:waypoint x="342.5" y="320.0"/>
         <omgdi:waypoint x="342.5" y="385.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="_5" targetElement="_4">
+      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="reattend_gm_approve" targetElement="_4">
         <omgdi:waypoint x="346.0" y="440.0"/>
         <omgdi:waypoint x="346.0" y="500.0"/>
         <bpmndi:BPMNLabel>

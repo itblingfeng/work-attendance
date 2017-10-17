@@ -1,11 +1,11 @@
 package cn.blingfeng.commons.pojo;
 
 public class WorkResult {
-    //    返回状态码
+    /**    返回状态码 */
     private Integer status;
-    //    返回信息
+    /**    返回信息   */
     private String msg;
-    //    返回数据
+    /**   返回数据  */
     private Object data;
 
     public WorkResult(Integer status, String msg, Object data) {
