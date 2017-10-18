@@ -379,7 +379,7 @@ desired effect
                         {
                             "data": "操作列",
                             render: function (data, type, full) {
-                                return '<button type="button" class="btn btn-success"  onclick="return approve(' + true + ',' + full.taskId + ')" >同意</button>' + '&nbsp;' + '<button type="button" class="btn btn-danger"  onclick="return approve('+false+','+full.taskId+')" >拒绝</button>'
+                                return '<button type="button" class="btn btn-success btn-sm"  onclick="return approve(' + true + ',' + full.taskId + ')" >同意</button>' + '&nbsp;' + '<button type="button" class="btn btn-danger btn-sm"  onclick="return approve('+false+','+full.taskId+')" >拒绝</button>'
                             }
                         }
                     ]
