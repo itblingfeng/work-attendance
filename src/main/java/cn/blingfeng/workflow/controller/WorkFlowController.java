@@ -7,6 +7,7 @@ import cn.blingfeng.commons.vo.WorkFlowQueryVo;
 import cn.blingfeng.user.pojo.User;
 import cn.blingfeng.workflow.pojo.ReAttend;
 import cn.blingfeng.workflow.service.WorkFlowService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class WorkFlowController {
     private AttenceService attenceService;
     private final String SESSION_USERINFO_ATTR = "userInfo";
 
-
+    @RequiresPermissions("workflow:reAttend")
     @RequestMapping(value = "/reAttend", method = RequestMethod.POST)
     public String reAttend(ReAttend reAttend, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute(SESSION_USERINFO_ATTR);
@@ -45,7 +46,7 @@ public class WorkFlowController {
         }
         return "attence";
     }
-
+   @RequiresPermissions("workflow:list")
     @RequestMapping("/list")
     @ResponseBody
     public WorkFlowQueryVo listReattend(HttpServletRequest request, WorkFlowQueryVo workFlowQueryVo) {
@@ -54,7 +55,7 @@ public class WorkFlowController {
         WorkFlowQueryVo queryResult = workFlowService.listReAttend(workFlowQueryVo);
         return queryResult;
     }
-
+    @RequiresPermissions("workflow:approve")
     @RequestMapping("/approve")
     @ResponseBody
     public WorkResult approveReattend(String taskId, boolean approve_result, HttpServletRequest request) {

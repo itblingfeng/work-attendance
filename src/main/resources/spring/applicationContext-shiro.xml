@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean class="org.apache.shiro.spring.aop.SpringAnnotationResolver"/>
+    <bean class="cn.blingfeng.commons.shiro.MyCredentialsMatcher" id="credentialsMatcher"/>
+    <bean class="cn.blingfeng.commons.shiro.MyRealm" id="myRealm">
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+    </bean>
+    <bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" id="securityManager">
+        <property name="realm" ref="myRealm"/>
+    </bean>
+    <bean class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" id="shiroFilter">
+        <property name="loginUrl" value="/login"/>
+        <property name="securityManager" ref="securityManager"/>
+        <property name="filterChainDefinitions">
+            <value>
+                /static/**=anon
+                /login=anon
+                <!--/user/userinfo=authc-->
+                /user/userinfo=anon
+            </value>
+        </property>
+    </bean>
+    <bean class="org.apache.shiro.spring.LifecycleBeanPostProcessor" id="lifecycleBeanPostProcessor"></bean>
+
+</beans>

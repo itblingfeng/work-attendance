@@ -1,6 +1,7 @@
 package cn.blingfeng.commons.interceptor;
 
 import cn.blingfeng.user.pojo.User;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,7 +16,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (httpServletRequest.getRequestURI().contains(PASS_LOGIN)) {
             return true;
         }
-        User user = (User) httpServletRequest.getSession().getAttribute("userInfo");
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("userInfo");
         if (user != null) {
             return true;
         }

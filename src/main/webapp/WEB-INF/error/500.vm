@@ -520,5 +520,6 @@
 <script src="/static/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/static/dist/js/demo.js"></script>
+<script src="/static/user/js/user.js"></script>
 </body>
 </html>

@@ -392,5 +392,12 @@ desired effect
     });
 
 </script>
+<script>
+    $(function () {
+        if($shiro.hasPermission("attence:approve")){
+            $("#attend").append('<li><a href="/attence/approve"><i class="fa fa-spinner text-blue"></i>补签审批</a></li>');
+        }
+    });
+</script>
 </body>
 </html>

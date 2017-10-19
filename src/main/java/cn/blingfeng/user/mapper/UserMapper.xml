@@ -8,10 +8,28 @@
         <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
         <result column="real_name" property="realName" jdbcType="VARCHAR"/>
         <result column="head_image" property="headImage" jdbcType="VARCHAR"/>
+        <collection property="roleList" resultMap="RoleResultMap"/>
+    </resultMap>
+    <resultMap id="RoleResultMap" type="cn.blingfeng.user.pojo.Role" >
+        <id column="roleid" property="roleid" jdbcType="BIGINT" />
+        <result column="role" property="role" jdbcType="VARCHAR" />
+        <result column="rd" property="description" jdbcType="VARCHAR" />
+        <collection property="permissionList" resultMap="PermissionResultMap"/>
+    </resultMap>
+    <resultMap id="PermissionResultMap" type="cn.blingfeng.user.pojo.Permission" >
+        <id column="permissionid" property="permissionid" jdbcType="BIGINT" />
+        <result column="permission" property="permission" jdbcType="VARCHAR" />
+        <result column="pd" property="description" jdbcType="VARCHAR" />
     </resultMap>
     <sql id="Base_Column_List">
     id, username, password, mobile, real_name, head_image
   </sql>
+    <sql id="Role_Column_List">
+        roleid,role,r.description rd
+    </sql>
+    <sql id="Permission_Column_List">
+        permissionid,permission,p.description pd
+    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
@@ -105,9 +123,19 @@
   </update>
     <select id="selectUserByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
-        <include refid="Base_Column_List"/>
-        from user
-        where username = #{username}
+        <include refid="Base_Column_List"/>,
+        <include refid="Role_Column_List"/>,
+        <include refid="Permission_Column_List"/>
+        from user u
+        left join user_role ur
+        on u.id = ur.user_id
+        left join role r on
+        ur.role_id = r.roleid
+        left join role_permission rp
+        on r.roleid = rp.role_id
+        left join permission p
+        on rp.permission_id = p.permissionid
+        where u.username = #{username}
     </select>
     <select id="selectNoAttendUser" resultType="Long">
     SELECT

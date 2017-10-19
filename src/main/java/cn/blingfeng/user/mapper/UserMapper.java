@@ -18,9 +18,10 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    List<User> selectUserByUsername(String username);
+    User selectUserByUsername(String username);
 
     List<Long> selectNoAttendUser();
+
 
 
 

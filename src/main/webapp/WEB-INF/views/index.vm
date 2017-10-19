@@ -170,6 +170,13 @@ desired effect
 <script src="/static/dist/js/app.min.js"></script>
 
 <script src="/static/user/js/user.js"></script>
+<script>
+    $(function () {
+        if($shiro.hasPermission("attence:approve")){
+            $("#attend").append('<li><a href="/attence/approve"><i class="fa fa-spinner text-blue"></i>补签审批</a></li>');
+        }
+    });
+</script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the

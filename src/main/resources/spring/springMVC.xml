@@ -3,10 +3,17 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
     <context:component-scan base-package="cn.blingfeng.*.controller"/>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
@@ -33,6 +40,7 @@
             </props>
         </property>
     </bean>
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
     <bean class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
         <property name="suffix" value=".vm"/>
         <property name="dateToolAttribute" value="date"/>
@@ -41,14 +49,16 @@
         <property name="exposeSpringMacroHelpers" value="true" />
         <property name="exposeSessionAttributes" value="true" />
         <property name="exposeRequestAttributes" value="true" />
+        <property name="toolboxConfigLocation" value="/WEB-INF/velocityToolBox.xml"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.velocity.VelocityToolboxView" />
     </bean>
     <!--配置拦截器-->
     <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <mvc:exclude-mapping path="/static/**"/>
-            <bean class="cn.blingfeng.commons.interceptor.LoginInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
+    <mvc:interceptor>
+        <mvc:mapping path="/**"/>
+        <mvc:exclude-mapping path="/static/**"/>
+        <bean class="cn.blingfeng.commons.interceptor.LoginInterceptor"/>
+    </mvc:interceptor>
+</mvc:interceptors>
 
 </beans>

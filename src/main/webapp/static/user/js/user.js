@@ -1,4 +1,5 @@
 $(function () {
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -12,4 +13,5 @@ $(function () {
             $("#userimg_left").attr("src",data.headImage);
         }
     });
+
 });

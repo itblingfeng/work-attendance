@@ -4,6 +4,7 @@ import cn.blingfeng.attence.service.AttenceService;
 import cn.blingfeng.commons.utils.PageQueryBean;
 import cn.blingfeng.commons.vo.QueryVo;
 import cn.blingfeng.user.pojo.User;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 public class AttenceController {
     @Autowired
     private AttenceService attenceService;
-
+    @RequiresPermissions("attence:attenceList")
     @RequestMapping("/attenceList")
     @ResponseBody
     public PageQueryBean attenceStatus(QueryVo queryVo, HttpServletRequest request) {
@@ -36,8 +37,10 @@ public class AttenceController {
 
     @RequestMapping()
     public String attence() {
+
         return "attence";
     }
+    @RequiresPermissions("attence:approve")
     @RequestMapping("/approve")
     public String approve(){
         return "approve";

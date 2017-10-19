@@ -2,7 +2,7 @@ package cn.blingfeng.login.controller;
 
 import cn.blingfeng.commons.pojo.WorkResult;
 import cn.blingfeng.user.pojo.User;
-import cn.blingfeng.user.service.UserSerivce;
+import cn.blingfeng.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController {
 
     @Autowired
-    private UserSerivce userService;
+    private UserService userService;
     private final Integer normalCode = 200;
 
     @RequestMapping()
@@ -31,12 +31,8 @@ public class LoginController {
 
     @RequestMapping(value = "/checkAccount", method = RequestMethod.POST)
     @ResponseBody
-    public WorkResult checkAccount(User user, HttpServletRequest request) {
+    public WorkResult checkAccount(User user) {
         WorkResult result = userService.checkAccount(user);
-
-        if (result.getStatus().equals(normalCode)) {
-            request.getSession().setAttribute("userInfo", result.getData());
-        }
         return result;
     }
 

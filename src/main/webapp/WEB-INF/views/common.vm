@@ -202,10 +202,10 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
-                <ul class="treeview-menu">
-                    <li><a href="/attence"><i class="fa fa-calendar-times-o text-red"></i> 打卡</a>
+                <ul class="treeview-menu" id="attend">
+                    <li><a href="/attence"><i class="fa fa-calendar-times-o text-red"></i> 打卡记录</a>
                     </li>
-                    <li><a href="/attence/approve"><i class="fa fa-spinner text-blue"></i> 审批情况</a></li>
+
                 </ul>
             </li>
             <li class="treeview">
