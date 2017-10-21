@@ -18,4 +18,6 @@ public interface MailService {
 
     WorkResult sendMail(Mail mail);
 
+    MailQueryVo getSendMailList(MailQueryVo mq);
+
 }

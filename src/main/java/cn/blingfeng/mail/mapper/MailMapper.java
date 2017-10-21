@@ -1,6 +1,7 @@
 package cn.blingfeng.mail.mapper;
 
 import cn.blingfeng.commons.utils.PageQueryBean;
+import cn.blingfeng.commons.vo.MailQueryVo;
 import cn.blingfeng.mail.pojo.Mail;
 
 import java.util.List;
@@ -27,5 +28,9 @@ public interface MailMapper {
     List<Mail> selectVaildList(PageQueryBean pageQueryBean);
 
     Mail selectMailByMailId(Long userId,Long mailId);
+
+    int selectValidSendCount(Long userId);
+
+    List<Mail> selectVaildSendList(MailQueryVo mailQueryVo);
 
 }

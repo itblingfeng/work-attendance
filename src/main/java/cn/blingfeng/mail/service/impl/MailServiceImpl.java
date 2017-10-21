@@ -83,4 +83,16 @@ public class MailServiceImpl implements MailService{
         return WorkResult.ok();
     }
 
+    @Override
+    public MailQueryVo getSendMailList(MailQueryVo mq) {
+        int validMailCount = mailMapper.selectValidSendCount(mq.getUserId());
+        mq.setTotalRows(validMailCount);
+        if(validMailCount <=0){
+            return mq;
+        }
+        List<Mail> mailList = mailMapper.selectVaildSendList(mq);
+        mq.setItems(mailList);
+        return mq;
+    }
+
 }

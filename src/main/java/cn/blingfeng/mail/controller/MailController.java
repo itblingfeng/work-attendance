@@ -75,4 +75,20 @@ public class MailController {
         return isExist;
 
     }
+    @RequestMapping("/sendbox")
+    public String sendBoxList(MailQueryVo mailQueryVo,Model model){
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("userInfo");
+        mailQueryVo.setUserId(user.getId());
+        MailQueryVo MailQueryVo = mailService.getSendMailList(mailQueryVo);
+        model.addAttribute("mailQueryBean",MailQueryVo);
+        return "/mail/sendbox";
+    }
+    @RequestMapping("/trashbox")
+    public String trashbox(MailQueryVo mailQueryVo,Model model){
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("userInfo");
+        mailQueryVo.setUserId(user.getId());
+        MailQueryVo MailQueryVo = mailService.getSendMailList(mailQueryVo);
+        model.addAttribute("mailQueryBean",MailQueryVo);
+        return "/mail/trashbox";
+    }
 }

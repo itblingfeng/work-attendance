@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>收件箱</title>
+  <title>已发送</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -63,10 +63,10 @@
             </div>
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="/mail"><i class="fa fa-inbox"></i> 收件箱
+                <li><a href="/mail"><i class="fa fa-inbox"></i> 收件箱
                   <span class="label label-primary pull-right" id="unreadcount"></span></a></li>
                 <li><a href="/mail/send"><i class="fa fa-envelope-o"></i> 发送邮件</a></li>
-                <li><a href="/mail/sendbox"><i class="fa fa-file-text-o"></i> 已发送</a></li>
+                <li  class="active"><a href="/mail/sendbox"><i class="fa fa-file-text-o"></i> 已发送</a></li>
                 <li><a href="/mail/trash"><i class="fa fa-trash-o"></i> 垃圾箱 <span class="label label-warning pull-right">65</span></a></li>
               </ul>
             </div>

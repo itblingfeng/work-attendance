@@ -194,7 +194,25 @@
     from mail
     left join user u
     on u.id = send_userid
-    where receive_userid = #{0}
+    where (receive_userid = #{0}
+    or send_userid = #{0})
     and mailId = #{1}
+  </select>
+  <select id="selectValidSendCount" parameterType="Long" resultType="Integer">
+    select count(0)
+    from mail
+    where send_userid = #{sendUserId}
+  </select>
+  <select id="selectVaildSendList" parameterType="cn.blingfeng.commons.vo.MailQueryVo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    u.username send_name
+    from mail
+    left join user u
+    on u.id = send_userid
+    where send_userid = #{userId}
+    order by send_time DESC
+    limit #{startRow},#{pageSize}
   </select>
 </mapper>
