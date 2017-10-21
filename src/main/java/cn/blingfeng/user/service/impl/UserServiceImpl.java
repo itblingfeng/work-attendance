@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(new UsernamePasswordToken(user.getUsername(), user.getPassword()));
-            subject.getSession().setTimeout(18000);
+            subject.getSession().setTimeout(18000000);
         }catch(Exception e){
             return WorkResult.error(400,e.getMessage());
         }
@@ -35,5 +35,11 @@ public class UserServiceImpl implements UserService {
     public User selectUserByUsername(String username) {
         User user = userMapper.selectUserByUsername(username);
         return user;
+    }
+
+    @Override
+    public Boolean checkUserExistByUsername(String username) {
+        Integer count = userMapper.checkUserExistByUsername(username);
+        return count == 1;
     }
 }

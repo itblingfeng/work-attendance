@@ -22,6 +22,9 @@ public interface UserMapper {
 
     List<Long> selectNoAttendUser();
 
+    Long selectUserIdByUsername(String username);
+    Integer checkUserExistByUsername(String username);
+
 
 
 

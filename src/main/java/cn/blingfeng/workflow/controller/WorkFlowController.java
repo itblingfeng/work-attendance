@@ -7,6 +7,7 @@ import cn.blingfeng.commons.vo.WorkFlowQueryVo;
 import cn.blingfeng.user.pojo.User;
 import cn.blingfeng.workflow.pojo.ReAttend;
 import cn.blingfeng.workflow.service.WorkFlowService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,8 +34,8 @@ public class WorkFlowController {
 
     @RequiresPermissions("workflow:reAttend")
     @RequestMapping(value = "/reAttend", method = RequestMethod.POST)
-    public String reAttend(ReAttend reAttend, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute(SESSION_USERINFO_ATTR);
+    public String reAttend(ReAttend reAttend) {
+       User user = (User)SecurityUtils.getSubject().getSession().getAttribute(SESSION_USERINFO_ATTR);
         reAttend.setReAttendStarter(user.getRealName());
         Attend attend = attenceService.getAttendByAttendId(reAttend.getAttendId());
         reAttend.setReAttendMor(attend.getAttendMorning());
@@ -49,8 +50,8 @@ public class WorkFlowController {
    @RequiresPermissions("workflow:list")
     @RequestMapping("/list")
     @ResponseBody
-    public WorkFlowQueryVo listReattend(HttpServletRequest request, WorkFlowQueryVo workFlowQueryVo) {
-        User user = (User) request.getSession().getAttribute(SESSION_USERINFO_ATTR);
+    public WorkFlowQueryVo listReattend(WorkFlowQueryVo workFlowQueryVo) {
+       User user = (User) SecurityUtils.getSubject().getSession().getAttribute(SESSION_USERINFO_ATTR);
         workFlowQueryVo.setUsername(user.getUsername());
         WorkFlowQueryVo queryResult = workFlowService.listReAttend(workFlowQueryVo);
         return queryResult;

@@ -12,14 +12,16 @@ import java.util.List;
 public class PageQueryBean implements Serializable{
 
     private static final int DEFAULT_PAGE_SIZE = 10;
+
+    private static final int DEFAULT_CURRENT_PAGE = 1;
     /**
      * 当前页
      */
-    private Integer currentPage;
+    private Integer currentPage = DEFAULT_CURRENT_PAGE;
     /**
      * 每页显示数据条数
      */
-    private Integer pageSize;
+    private Integer pageSize = DEFAULT_PAGE_SIZE;
     /**
      * 所有记录数
      */
@@ -48,7 +50,7 @@ public class PageQueryBean implements Serializable{
 
     public final Integer getStartRow() {
         if (startRow == null) {
-            startRow = (currentPage == null ? 0 : (currentPage - 1) * getPageSize());
+            startRow =  (currentPage - 1) * getPageSize();
         }
         return startRow;
     }
@@ -59,7 +61,7 @@ public class PageQueryBean implements Serializable{
     }
 
     public final Integer getPageSize() {
-        return pageSize == null ? DEFAULT_PAGE_SIZE : pageSize;
+        return pageSize;
     }
 
     public final void setPageSize(Integer pageSize) {

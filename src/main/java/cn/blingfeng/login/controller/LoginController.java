@@ -3,6 +3,7 @@ package cn.blingfeng.login.controller;
 import cn.blingfeng.commons.pojo.WorkResult;
 import cn.blingfeng.user.pojo.User;
 import cn.blingfeng.user.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +38,8 @@ public class LoginController {
     }
 
     @RequestMapping("/signOut")
-    public String signOut(HttpServletRequest request) {
-        request.getSession().invalidate();
+    public String signOut() {
+        SecurityUtils.getSubject().getSession().removeAttribute("userInfo");
         return "redirect:";
     }
 }

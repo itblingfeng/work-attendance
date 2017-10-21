@@ -78,7 +78,7 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 
     @Override
     public void reAttendStart(ReAttend reAttend) throws ParseException {
-        reAttend.setCurrentHandler("blingfeng");
+        reAttend.setCurrentHandler("laowang666");
         reAttend.setAttendDate(simpleDateFormat.parse(reAttend.getAttendDate_string()));
         reAttend.setStatus(REATTEND_STATUS_DEAL);
         try {

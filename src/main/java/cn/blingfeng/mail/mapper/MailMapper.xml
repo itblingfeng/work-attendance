@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.blingfeng.mail.mapper.MailMapper" >
+  <resultMap id="BaseResultMap" type="cn.blingfeng.mail.pojo.Mail" >
+    <id column="mailid" property="mailid" jdbcType="BIGINT" />
+    <result column="send_userid" property="sendUserid" jdbcType="BIGINT" />
+    <result column="receive_name" property="receiveUsername"/>
+    <result column="receive_userid" property="receiveUserid" jdbcType="BIGINT" />
+    <result column="send_name" property="sendUsername"/>
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.blingfeng.mail.pojo.Mail" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    mailid, send_userid, receive_userid, attachment, status, title, send_time, is_del
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mail
+    where mailid = #{mailid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mail
+    where mailid = #{mailid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.blingfeng.mail.pojo.Mail" >
+    insert into mail (mailid, send_userid, receive_userid, 
+      attachment, status, title, 
+      send_time, is_del, content
+      )
+    values (#{mailid,jdbcType=BIGINT}, #{sendUserid,jdbcType=BIGINT}, #{receiveUserid,jdbcType=BIGINT}, 
+      #{attachment,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR}, 
+      #{sendTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=TINYINT}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.blingfeng.mail.pojo.Mail" >
+    insert into mail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mailid != null" >
+        mailid,
+      </if>
+      <if test="sendUserid != null" >
+        send_userid,
+      </if>
+      <if test="receiveUserid != null" >
+        receive_userid,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="sendTime != null" >
+        send_time,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mailid != null" >
+        #{mailid,jdbcType=BIGINT},
+      </if>
+      <if test="sendUserid != null" >
+        #{sendUserid,jdbcType=BIGINT},
+      </if>
+      <if test="receiveUserid != null" >
+        #{receiveUserid,jdbcType=BIGINT},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.blingfeng.mail.pojo.Mail" >
+    update mail
+    <set >
+      <if test="sendUserid != null" >
+        send_userid = #{sendUserid,jdbcType=BIGINT},
+      </if>
+      <if test="receiveUserid != null" >
+        receive_userid = #{receiveUserid,jdbcType=BIGINT},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        send_time = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where mailid = #{mailid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.blingfeng.mail.pojo.Mail" >
+    update mail
+    set send_userid = #{sendUserid,jdbcType=BIGINT},
+      receive_userid = #{receiveUserid,jdbcType=BIGINT},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      title = #{title,jdbcType=VARCHAR},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where mailid = #{mailid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.blingfeng.mail.pojo.Mail" >
+    update mail
+    set send_userid = #{sendUserid,jdbcType=BIGINT},
+      receive_userid = #{receiveUserid,jdbcType=BIGINT},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      title = #{title,jdbcType=VARCHAR},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT}
+    where mailid = #{mailid,jdbcType=BIGINT}
+  </update>
+  <select id="selectValidCount" resultType="Integer">
+    select count(0)
+    from mail
+    where receive_userid = #{0}
+    and is_del = #{1}
+  </select>
+  <select id="selectUnReadMailCount" resultType="Integer">
+    select count(0)
+    from mail
+    where receive_userid = #{0}
+    and is_del = #{1}
+    and status = #{2}
+  </select>
+  <select id="selectVaildList" parameterType="cn.blingfeng.commons.utils.PageQueryBean" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    u.username send_name
+    from mail
+    left join user u
+    on u.id = send_userid
+    where is_del = #{isDel}
+    and receive_userid = #{userId}
+    order by send_time DESC
+    limit #{startRow},#{pageSize}
+  </select>
+  <select id="selectMailByMailId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="Blob_Column_List"/>
+    ,
+    u.username send_name
+    from mail
+    left join user u
+    on u.id = send_userid
+    where receive_userid = #{0}
+    and mailId = #{1}
+  </select>
+</mapper>

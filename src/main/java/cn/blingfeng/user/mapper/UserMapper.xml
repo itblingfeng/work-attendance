@@ -151,5 +151,16 @@
 	CURRENT_DATE ())
 )
     </select>
+    <select id="selectUserIdByUsername" parameterType="String" resultType="Long">
+        select id
+        from user
+        where username = #{username}
+    </select>
+
+    <select id="checkUserExistByUsername" parameterType="String" resultType="Integer">
+        select count(0)
+        from user
+        where username = #{username}
+    </select>
 
 </mapper>

@@ -7,4 +7,6 @@ public interface UserService {
     WorkResult checkAccount(User user);
 
     User selectUserByUsername(String username);
+
+    Boolean checkUserExistByUsername(String username);
 }
