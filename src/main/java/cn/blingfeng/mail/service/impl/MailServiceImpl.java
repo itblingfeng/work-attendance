@@ -31,13 +31,18 @@ public class MailServiceImpl implements MailService{
     private final Byte MAIL_STATUS_UNREAD = 0;
 
     private final Byte MAIL_STATUS_READ = 1;
+
+    private final Byte MAIL_IS_SEND = 1;
+
+    private final Byte MAIL_IS_REC = 2;
     @Override
     public MailQueryVo getMailListByQueryBean(MailQueryVo mailQueryVo) {
         /**
          * 先查询邮件记录的总量，然后返回设置总量
          * 查询所有邮件的记录
          * */
-        int validMailCount = mailMapper.selectValidCount(mailQueryVo.getUserId(), MAIL_STATUS_UNDELETE);
+        mailQueryVo.setIsSend(MAIL_IS_REC);
+        int validMailCount = mailMapper.selectValidCount(mailQueryVo.getUserId(), MAIL_STATUS_UNDELETE,MAIL_IS_REC);
         mailQueryVo.setTotalRows(validMailCount);
         if(validMailCount <=0){
             return mailQueryVo;
@@ -50,13 +55,18 @@ public class MailServiceImpl implements MailService{
 
     @Override
     public WorkResult getnewMailCount(Long userId) {
-        int newMailCount = mailMapper.selectUnReadMailCount(userId, MAIL_STATUS_UNDELETE, MAIL_STATUS_UNREAD);
+        int newMailCount = mailMapper.selectUnReadMailCount(userId, MAIL_STATUS_UNDELETE, MAIL_STATUS_UNREAD,MAIL_IS_REC);
         return WorkResult.ok(newMailCount);
     }
 
     @Override
-    public Mail getContentByMailId(Long userId, Long mailId) {
-        Mail mail = mailMapper.selectMailByMailId(userId, mailId);
+    public Mail getContentByMailId(Long userId, Long mailId,Integer flag) {
+        Mail mail ;
+        if(flag ==1) {
+         mail=  mailMapper.selectMailByMailId(userId, mailId, MAIL_IS_SEND);
+        }else{
+            mail = mailMapper.selectMailByMailId(userId, mailId, MAIL_IS_REC);
+        }
         mail.setStatus(MAIL_STATUS_READ);
         mailMapper.updateByPrimaryKeySelective(mail);
         return mail;
@@ -75,6 +85,9 @@ public class MailServiceImpl implements MailService{
        try {
            Long receiveUserId = userMapper.selectUserIdByUsername(mail.getReceiveUsername());
            mail.setReceiveUserid(receiveUserId);
+           mail.setIsSend(MAIL_IS_REC);
+           mailMapper.insertSelective(mail);
+           mail.setIsSend(MAIL_IS_SEND);
            mailMapper.insertSelective(mail);
        }catch(Exception e){
            throw e;
@@ -85,7 +98,8 @@ public class MailServiceImpl implements MailService{
 
     @Override
     public MailQueryVo getSendMailList(MailQueryVo mq) {
-        int validMailCount = mailMapper.selectValidSendCount(mq.getUserId());
+        mq.setIsSend(MAIL_IS_SEND);
+        int validMailCount = mailMapper.selectValidSendCount(mq.getUserId(),mq.getIsSend());
         mq.setTotalRows(validMailCount);
         if(validMailCount <=0){
             return mq;
@@ -98,9 +112,26 @@ public class MailServiceImpl implements MailService{
     @Override
     public WorkResult deleteMail(Long[] ids) {
         for(Long id :ids) {
-           mailMapper.deleteByPrimaryKey(id);
+            Mail mail = new Mail();
+            mail.setMailid(id);
+            mail.setIsDel(MAIL_STATUS_DELETE);
+           mailMapper.updateByPrimaryKeySelective(mail);
         }
         return WorkResult.ok("删除成功！");
+    }
+
+    @Override
+    public MailQueryVo getTrashMailList(MailQueryVo mailQueryVo) {
+        mailQueryVo.setIsSend(MAIL_IS_REC);
+        int validMailCount = mailMapper.selectValidCount(mailQueryVo.getUserId(), MAIL_STATUS_DELETE,MAIL_IS_REC);
+        mailQueryVo.setTotalRows(validMailCount);
+        if(validMailCount <=0){
+            return mailQueryVo;
+        }
+        mailQueryVo.setIsDel(MAIL_STATUS_DELETE);
+        List<Mail> mailList = mailMapper.selectVaildList(mailQueryVo);
+        mailQueryVo.setItems(mailList);
+        return mailQueryVo;
     }
 
 }

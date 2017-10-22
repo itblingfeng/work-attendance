@@ -1,6 +1,5 @@
 package cn.blingfeng.mail.mapper;
 
-import cn.blingfeng.commons.utils.PageQueryBean;
 import cn.blingfeng.commons.vo.MailQueryVo;
 import cn.blingfeng.mail.pojo.Mail;
 
@@ -20,16 +19,15 @@ public interface MailMapper {
     int updateByPrimaryKeyWithBLOBs(Mail record);
 
     int updateByPrimaryKey(Mail record);
+    int selectValidCount(Long userId, Byte isdel,Byte isSend);
 
-    int selectValidCount(Long userId, Byte isdel);
+    int selectUnReadMailCount(Long userId, Byte isdel,Byte status,Byte isSend);
 
-    int selectUnReadMailCount(Long userId, Byte isdel,Byte status);
+    List<Mail> selectVaildList(MailQueryVo mailQueryVo);
 
-    List<Mail> selectVaildList(PageQueryBean pageQueryBean);
+    Mail selectMailByMailId(Long userId,Long mailId,Byte isSend);
 
-    Mail selectMailByMailId(Long userId,Long mailId);
-
-    int selectValidSendCount(Long userId);
+    int selectValidSendCount(Long userId,Byte isSend);
 
     List<Mail> selectVaildSendList(MailQueryVo mailQueryVo);
 

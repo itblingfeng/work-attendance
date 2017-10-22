@@ -12,6 +12,16 @@ public class MailQueryVo extends PageQueryBean{
 
     private Byte isDel;
 
+    private Byte isSend;
+
+    public Byte getIsSend() {
+        return isSend;
+    }
+
+    public void setIsSend(Byte isSend) {
+        this.isSend = isSend;
+    }
+
     public Byte getIsDel() {
         return isDel;
     }

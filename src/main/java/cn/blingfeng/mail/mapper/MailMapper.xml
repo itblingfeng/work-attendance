@@ -4,22 +4,22 @@
   <resultMap id="BaseResultMap" type="cn.blingfeng.mail.pojo.Mail" >
     <id column="mailid" property="mailid" jdbcType="BIGINT" />
     <result column="send_userid" property="sendUserid" jdbcType="BIGINT" />
-    <result column="receive_name" property="receiveUsername"/>
     <result column="receive_userid" property="receiveUserid" jdbcType="BIGINT" />
-    <result column="send_name" property="sendUsername"/>
     <result column="attachment" property="attachment" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
     <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="is_send" property="isSend" jdbcType="TINYINT" />
+    <result column="send_name" property="sendUsername"/>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="cn.blingfeng.mail.pojo.Mail" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    mailid, send_userid, receive_userid, attachment, status, title, send_time, is_del
+    mailid, send_userid, receive_userid, attachment, status, title, send_time, is_del, 
+    is_send
   </sql>
-
   <sql id="Blob_Column_List" >
     content
   </sql>
@@ -38,12 +38,12 @@
   <insert id="insert" parameterType="cn.blingfeng.mail.pojo.Mail" >
     insert into mail (mailid, send_userid, receive_userid, 
       attachment, status, title, 
-      send_time, is_del, content
-      )
+      send_time, is_del, is_send, 
+      content)
     values (#{mailid,jdbcType=BIGINT}, #{sendUserid,jdbcType=BIGINT}, #{receiveUserid,jdbcType=BIGINT}, 
       #{attachment,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR}, 
-      #{sendTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=TINYINT}, #{content,jdbcType=LONGVARCHAR}
-      )
+      #{sendTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=TINYINT}, #{isSend,jdbcType=TINYINT}, 
+      #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.blingfeng.mail.pojo.Mail" >
     insert into mail
@@ -71,6 +71,9 @@
       </if>
       <if test="isDel != null" >
         is_del,
+      </if>
+      <if test="isSend != null" >
+        is_send,
       </if>
       <if test="content != null" >
         content,
@@ -101,6 +104,9 @@
       <if test="isDel != null" >
         #{isDel,jdbcType=TINYINT},
       </if>
+      <if test="isSend != null" >
+        #{isSend,jdbcType=TINYINT},
+      </if>
       <if test="content != null" >
         #{content,jdbcType=LONGVARCHAR},
       </if>
@@ -130,6 +136,9 @@
       <if test="isDel != null" >
         is_del = #{isDel,jdbcType=TINYINT},
       </if>
+      <if test="isSend != null" >
+        is_send = #{isSend,jdbcType=TINYINT},
+      </if>
       <if test="content != null" >
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
@@ -145,6 +154,7 @@
       title = #{title,jdbcType=VARCHAR},
       send_time = #{sendTime,jdbcType=TIMESTAMP},
       is_del = #{isDel,jdbcType=TINYINT},
+      is_send = #{isSend,jdbcType=TINYINT},
       content = #{content,jdbcType=LONGVARCHAR}
     where mailid = #{mailid,jdbcType=BIGINT}
   </update>
@@ -156,7 +166,8 @@
       status = #{status,jdbcType=TINYINT},
       title = #{title,jdbcType=VARCHAR},
       send_time = #{sendTime,jdbcType=TIMESTAMP},
-      is_del = #{isDel,jdbcType=TINYINT}
+      is_del = #{isDel,jdbcType=TINYINT},
+      is_send = #{isSend,jdbcType=TINYINT}
     where mailid = #{mailid,jdbcType=BIGINT}
   </update>
   <select id="selectValidCount" resultType="Integer">
@@ -164,6 +175,7 @@
     from mail
     where receive_userid = #{0}
     and is_del = #{1}
+    and is_send = #{2}
   </select>
   <select id="selectUnReadMailCount" resultType="Integer">
     select count(0)
@@ -171,6 +183,7 @@
     where receive_userid = #{0}
     and is_del = #{1}
     and status = #{2}
+    and is_send = #{3}
   </select>
   <select id="selectVaildList" parameterType="cn.blingfeng.commons.utils.PageQueryBean" resultMap="BaseResultMap">
     select
@@ -182,6 +195,7 @@
     on u.id = send_userid
     where is_del = #{isDel}
     and receive_userid = #{userId}
+    and is_send = #{isSend}
     order by send_time DESC
     limit #{startRow},#{pageSize}
   </select>
@@ -197,11 +211,13 @@
     where (receive_userid = #{0}
     or send_userid = #{0})
     and mailId = #{1}
+    and is_send = #{2}
   </select>
-  <select id="selectValidSendCount" parameterType="Long" resultType="Integer">
+  <select id="selectValidSendCount"  resultType="Integer">
     select count(0)
     from mail
-    where send_userid = #{sendUserId}
+    where send_userid = #{0}
+    and is_send = #{1}
   </select>
   <select id="selectVaildSendList" parameterType="cn.blingfeng.commons.vo.MailQueryVo" resultMap="BaseResultMap">
     select
@@ -212,6 +228,7 @@
     left join user u
     on u.id = send_userid
     where send_userid = #{userId}
+    and is_send = #{isSend}
     order by send_time DESC
     limit #{startRow},#{pageSize}
   </select>

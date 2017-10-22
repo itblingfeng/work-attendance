@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -37,12 +38,12 @@ public class MailController {
     }
 
     @RequestMapping("/read/{mailId}")
-    public String readMail(@PathVariable Long mailId, Model model) {
+    public String readMail(@PathVariable Long mailId, Model model, @RequestParam Integer flag) {
         /**
          * 改邮件状态为已读
          */
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute("userInfo");
-        Mail mail = mailService.getContentByMailId(user.getId(), mailId);
+        Mail mail = mailService.getContentByMailId(user.getId(), mailId,flag);
         model.addAttribute("mail", mail);
         return "/mail/read-mail";
     }
@@ -87,8 +88,8 @@ public class MailController {
     public String trashbox(MailQueryVo mailQueryVo,Model model){
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute("userInfo");
         mailQueryVo.setUserId(user.getId());
-        MailQueryVo MailQueryVo = mailService.getSendMailList(mailQueryVo);
-        model.addAttribute("mailQueryBean",MailQueryVo);
+        MailQueryVo mailQueryBean = mailService.getTrashMailList(mailQueryVo);
+        model.addAttribute("mailQueryBean",mailQueryBean);
         return "/mail/trashbox";
     }
     @RequestMapping("/trashmail")

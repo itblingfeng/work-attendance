@@ -14,12 +14,14 @@ public interface MailService {
 
     WorkResult getnewMailCount(Long userId);
 
-    Mail getContentByMailId(Long userId, Long mailId);
+    Mail getContentByMailId(Long userId, Long mailId,Integer flag);
 
     WorkResult sendMail(Mail mail);
 
     MailQueryVo getSendMailList(MailQueryVo mq);
 
     WorkResult deleteMail(Long ids[]);
+
+    MailQueryVo getTrashMailList(MailQueryVo mailQueryVo);
 
 }

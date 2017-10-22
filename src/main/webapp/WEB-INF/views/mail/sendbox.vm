@@ -67,7 +67,7 @@
                   <span class="label label-primary pull-right" id="unreadcount"></span></a></li>
                 <li><a href="/mail/send"><i class="fa fa-envelope-o"></i> 发送邮件</a></li>
                 <li  class="active"><a href="/mail/sendbox"><i class="fa fa-file-text-o"></i> 已发送</a></li>
-                <li><a href="/mail/trash"><i class="fa fa-trash-o"></i> 垃圾箱 <span class="label label-warning pull-right">65</span></a></li>
+                <li><a href="/mail/trashbox"><i class="fa fa-trash-o"></i> 垃圾箱 <span class="label label-warning pull-right">65</span></a></li>
               </ul>
             </div>
             <!-- /.box-body -->
@@ -135,7 +135,7 @@
                                 <i class="fa fa-star-o text-yellow"/>
                         #end
                     </td>
-                    <td class="mailbox-name"><a href="/mail/read/$mail.mailid">$mail.sendUsername</a></td>
+                    <td class="mailbox-name"><a href="/mail/read/$mail.mailid?flag=1">$mail.sendUsername</a></td>
                     <td class="mailbox-subject"><b>$mail.title</b>
                     </td>
                     <td class="mailbox-attachment">
