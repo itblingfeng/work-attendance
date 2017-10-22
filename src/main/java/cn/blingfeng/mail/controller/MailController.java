@@ -91,4 +91,10 @@ public class MailController {
         model.addAttribute("mailQueryBean",MailQueryVo);
         return "/mail/trashbox";
     }
+    @RequestMapping("/trashmail")
+    @ResponseBody
+    public WorkResult trashMail(Long []ids){
+        WorkResult result = mailService.deleteMail(ids);
+        return result;
+    }
 }

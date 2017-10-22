@@ -20,4 +20,6 @@ public interface MailService {
 
     MailQueryVo getSendMailList(MailQueryVo mq);
 
+    WorkResult deleteMail(Long ids[]);
+
 }

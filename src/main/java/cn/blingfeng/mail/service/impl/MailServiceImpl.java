@@ -95,4 +95,12 @@ public class MailServiceImpl implements MailService{
         return mq;
     }
 
+    @Override
+    public WorkResult deleteMail(Long[] ids) {
+        for(Long id :ids) {
+           mailMapper.deleteByPrimaryKey(id);
+        }
+        return WorkResult.ok("删除成功！");
+    }
+
 }
