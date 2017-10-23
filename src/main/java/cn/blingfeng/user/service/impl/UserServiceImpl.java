@@ -21,8 +21,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public WorkResult checkAccount(User user) {
         Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
+        if(user.getRemeberMe()!=null){
+            token.setRememberMe(true);
+        }else{
+            token.setRememberMe(false);
+        }
         try {
-            subject.login(new UsernamePasswordToken(user.getUsername(), user.getPassword()));
+            subject.login(token);
             subject.getSession().setTimeout(18000000);
         }catch(Exception e){
             return WorkResult.error(400,e.getMessage());

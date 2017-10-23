@@ -17,6 +17,16 @@ public class User {
 
     private List<Role> roleList;
 
+    private Boolean remeberMe;
+
+    public Boolean getRemeberMe() {
+        return remeberMe;
+    }
+
+    public void setRemeberMe(Boolean remeberMe) {
+        this.remeberMe = remeberMe;
+    }
+
     public List<Role> getRoleList() {
         return roleList;
     }

@@ -27,6 +27,8 @@ public class MyCredentialsMatcher extends SimpleCredentialsMatcher {
         Object tokenCredentials = DigestUtils.md5DigestAsHex(password.getBytes());
         /** 账户令牌 该方法可获取之前存储的密码*/
         Object accountCredentials = getCredentials(info);
+
+
         try {
             return equals(tokenCredentials, accountCredentials);
         } catch (Exception e) {
