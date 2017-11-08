@@ -19,6 +19,7 @@ spring+springmvc+mybatis+shiro
  - Mybatis
  - Shiro
  - Activity
+ - Quarz
  - MySQL
  - Druid
  - JQ
