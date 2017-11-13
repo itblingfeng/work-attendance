@@ -92,7 +92,7 @@
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    url: "/login/checkAccount",
+                    url: "${rc.contextPath}/login/checkAccount",
                     data: $("#acountForm").serialize(),
                     success: function (data) {
                         if (data.status == 200) {

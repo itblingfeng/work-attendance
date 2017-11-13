@@ -19,6 +19,26 @@ public class User {
 
     private Boolean remeberMe;
 
+    private Long depId;
+
+    private String depName;
+
+    public String getDepName() {
+        return depName;
+    }
+
+    public void setDepName(String depName) {
+        this.depName = depName;
+    }
+
+    public Long getDepId() {
+        return depId;
+    }
+
+    public void setDepId(Long depId) {
+        this.depId = depId;
+    }
+
     public Boolean getRemeberMe() {
         return remeberMe;
     }

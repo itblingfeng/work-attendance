@@ -36,6 +36,7 @@
     <bean class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" id="shiroFilter">
         <property name="loginUrl" value="/login"/>
         <property name="securityManager" ref="securityManager"/>
+
         <property name="filterChainDefinitions">
             <value>
                 /static/**=anon

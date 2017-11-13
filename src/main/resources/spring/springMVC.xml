@@ -60,5 +60,19 @@
         <bean class="cn.blingfeng.commons.interceptor.LoginInterceptor"/>
     </mvc:interceptor>
 </mvc:interceptors>
+    <bean
+            class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.apache.shiro.authz.UnauthorizedException">
+                    /unauthirized
+                </prop>
+                <prop key="org.apache.shiro.authz.UnauthenticatedException">
+                    /unauthirized
+                </prop>
+            </props>
+        </property>
+    </bean>
+
 
 </beans>

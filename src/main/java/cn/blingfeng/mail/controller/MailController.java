@@ -42,7 +42,7 @@ public class MailController {
         /**
          * 改邮件状态为已读
          */
-        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("userInfo");
+        User user = cn.blingfeng.commons.utils.SecurityUtils.getUser();
         Mail mail = mailService.getContentByMailId(user.getId(), mailId,flag);
         model.addAttribute("mail", mail);
         return "/mail/read-mail";

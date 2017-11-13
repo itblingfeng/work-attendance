@@ -7,6 +7,7 @@ import cn.blingfeng.commons.utils.PageQueryBean;
 import cn.blingfeng.commons.vo.QueryVo;
 import cn.blingfeng.user.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -24,16 +25,19 @@ public class AttenceServiceImpl implements AttenceService {
     private AttendMapper attendMapper;
     @Autowired
     private UserMapper userMapper;
-    /**    1为正常 2为异常 */
-    private final Byte status = 2;
-
-    private final Integer absence = 480;
-
-    private final String morning = "09:30:00";
-
-    private final String evening = "18:00:00";
-
-    private Byte week = 2;
+    /**
+     * 1为正常 2为异常
+     */
+    @Value("${ATTEND_STATUS}")
+    private Byte ATTEND_STATUS;
+    @Value("${ATTEND_ABSENCE}")
+    private Integer ATTEND_ABSENCE;
+    @Value("${ATTEND_MORNING}")
+    private String ATTEND_MORNING;
+    @Value("${ATTEND_EVENING}")
+    private String ATTEND_EVENING;
+    @Value("${ATTEND_WEEK}")
+    private Byte ATTEND_WEEK;
 
 
     @Override
@@ -68,12 +72,12 @@ public class AttenceServiceImpl implements AttenceService {
             Attend attend = new Attend();
             attend.setUserId(userId);
             attend.setAttendDate(new Date());
-            attend.setAbsence(absence);
-            attend.setAttendWeek(week);
+            attend.setAbsence(ATTEND_ABSENCE);
+            attend.setAttendWeek(ATTEND_WEEK);
             attendMapper.insertSelective(attend);
         }
 //        更新所有异常的信息
-        attendMapper.updateExceptionAttend(morning, evening);
+        attendMapper.updateExceptionAttend(ATTEND_MORNING, ATTEND_EVENING);
 
     }
 

@@ -1,166 +1,196 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.blingfeng.user.mapper.UserMapper">
-    <resultMap id="BaseResultMap" type="cn.blingfeng.user.pojo.User">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="username" property="username" jdbcType="VARCHAR"/>
-        <result column="password" property="password" jdbcType="VARCHAR"/>
-        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
-        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
-        <result column="head_image" property="headImage" jdbcType="VARCHAR"/>
-        <collection property="roleList" resultMap="RoleResultMap"/>
-    </resultMap>
-    <resultMap id="RoleResultMap" type="cn.blingfeng.user.pojo.Role" >
-        <id column="roleid" property="roleid" jdbcType="BIGINT" />
-        <result column="role" property="role" jdbcType="VARCHAR" />
-        <result column="rd" property="description" jdbcType="VARCHAR" />
-        <collection property="permissionList" resultMap="PermissionResultMap"/>
-    </resultMap>
-    <resultMap id="PermissionResultMap" type="cn.blingfeng.user.pojo.Permission" >
-        <id column="permissionid" property="permissionid" jdbcType="BIGINT" />
-        <result column="permission" property="permission" jdbcType="VARCHAR" />
-        <result column="pd" property="description" jdbcType="VARCHAR" />
-    </resultMap>
-    <sql id="Base_Column_List">
-    id, username, password, mobile, real_name, head_image
+  <resultMap id="BaseResultMap" type="cn.blingfeng.user.pojo.User">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="username" property="username" jdbcType="VARCHAR"/>
+    <result column="password" property="password" jdbcType="VARCHAR"/>
+    <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+    <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+    <result column="head_image" property="headImage" jdbcType="VARCHAR"/>
+    <result column="dep_id" property="depId" jdbcType="BIGINT" />
+    <result column="dep_name" property="depName"></result>
+    <collection property="roleList" resultMap="RoleResultMap"/>
+  </resultMap>
+  <resultMap id="RoleResultMap" type="cn.blingfeng.user.pojo.Role" >
+    <id column="roleid" property="roleid" jdbcType="BIGINT" />
+    <result column="role" property="role" jdbcType="VARCHAR" />
+    <result column="rd" property="description" jdbcType="VARCHAR" />
+    <collection property="permissionList" resultMap="PermissionResultMap"/>
+  </resultMap>
+  <resultMap id="PermissionResultMap" type="cn.blingfeng.user.pojo.Permission" >
+    <id column="permissionid" property="permissionid" jdbcType="BIGINT" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="pd" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, username, password, mobile, real_name, head_image, dep_id
   </sql>
-    <sql id="Role_Column_List">
-        roleid,role,r.description rd
-    </sql>
-    <sql id="Permission_Column_List">
-        permissionid,permission,p.description pd
-    </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
-        select
-        <include refid="Base_Column_List"/>
-        from user
-        where id = #{id,jdbcType=BIGINT}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <sql id="Role_Column_List">
+    roleid,role,r.description rd
+  </sql>
+  <sql id="Permission_Column_List">
+    permissionid,permission,p.description pd
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select
+    <include refid="Base_Column_List"/>
+    from user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-    <insert id="insert" parameterType="cn.blingfeng.user.pojo.User">
-    insert into user (id, username, password, 
-      mobile, real_name, head_image
-      )
-    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{headImage,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="cn.blingfeng.user.pojo.User">
+    insert into user (id, username, password,
+    mobile, real_name, head_image
+    )
+    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+    #{mobile,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{headImage,jdbcType=VARCHAR}
+    )
   </insert>
-    <insert id="insertSelective" parameterType="cn.blingfeng.user.pojo.User">
-        insert into user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="username != null">
-                username,
-            </if>
-            <if test="password != null">
-                password,
-            </if>
-            <if test="mobile != null">
-                mobile,
-            </if>
-            <if test="realName != null">
-                real_name,
-            </if>
-            <if test="headImage != null">
-                head_image,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=BIGINT},
-            </if>
-            <if test="username != null">
-                #{username,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="mobile != null">
-                #{mobile,jdbcType=VARCHAR},
-            </if>
-            <if test="realName != null">
-                #{realName,jdbcType=VARCHAR},
-            </if>
-            <if test="headImage != null">
-                #{headImage,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="cn.blingfeng.user.pojo.User">
-        update user
-        <set>
-            <if test="username != null">
-                username = #{username,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                password = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="mobile != null">
-                mobile = #{mobile,jdbcType=VARCHAR},
-            </if>
-            <if test="realName != null">
-                real_name = #{realName,jdbcType=VARCHAR},
-            </if>
-            <if test="headImage != null">
-                head_image = #{headImage,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="cn.blingfeng.user.pojo.User">
+  <insert id="insertSelective" parameterType="cn.blingfeng.user.pojo.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="headImage != null">
+        head_image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="headImage != null">
+        #{headImage,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.blingfeng.user.pojo.User">
     update user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      mobile = #{mobile,jdbcType=VARCHAR},
-      real_name = #{realName,jdbcType=VARCHAR},
-      head_image = #{headImage,jdbcType=VARCHAR}
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="headImage != null">
+        head_image = #{headImage,jdbcType=VARCHAR},
+      </if>
+      <if test="depId !=null">
+        dep_id = #{depId,jdbcType=BIGINT}
+      </if>
+    </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-    <select id="selectUserByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select
-        <include refid="Base_Column_List"/>,
-        <include refid="Role_Column_List"/>,
-        <include refid="Permission_Column_List"/>
-        from user u
-        left join user_role ur
-        on u.id = ur.user_id
-        left join role r on
-        ur.role_id = r.roleid
-        left join role_permission rp
-        on r.roleid = rp.role_id
-        left join permission p
-        on rp.permission_id = p.permissionid
-        where u.username = #{username}
-    </select>
-    <select id="selectNoAttendUser" resultType="Long">
+  <update id="updateByPrimaryKey" parameterType="cn.blingfeng.user.pojo.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+    password = #{password,jdbcType=VARCHAR},
+    mobile = #{mobile,jdbcType=VARCHAR},
+    real_name = #{realName,jdbcType=VARCHAR},
+    head_image = #{headImage,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectUserByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>,
+    <include refid="Role_Column_List"/>,
+    <include refid="Permission_Column_List"/>
+    from user u
+    left join user_role ur
+    on u.id = ur.user_id
+    left join role r on
+    ur.role_id = r.roleid
+    left join role_permission rp
+    on r.roleid = rp.role_id
+    left join permission p
+    on rp.permission_id = p.permissionid
+    where u.username = #{username}
+  </select>
+  <select id="selectNoAttendUser" resultType="Long">
     SELECT
-	u.id
+    u.id
     FROM
-	USER u where u.id NOT IN (
-	SELECT
-		user_id
-	FROM
-		attend
-	WHERE
-		attend_date = (SELECT
-	CURRENT_DATE ())
-)
-    </select>
-    <select id="selectUserIdByUsername" parameterType="String" resultType="Long">
-        select id
-        from user
-        where username = #{username}
-    </select>
+    USER u where u.id NOT IN (
+    SELECT
+    user_id
+    FROM
+    attend
+    WHERE
+    attend_date = (SELECT
+    CURRENT_DATE ())
+    )
+  </select>
+  <select id="selectUserIdByUsername" parameterType="String" resultType="Long">
+    select id
+    from user
+    where username = #{username}
+  </select>
 
-    <select id="checkUserExistByUsername" parameterType="String" resultType="Integer">
-        select count(0)
-        from user
-        where username = #{username}
-    </select>
+  <select id="checkUserExistByUsername" parameterType="String" resultType="Integer">
+    select count(0)
+    from user
+    where username = #{username}
+  </select>
 
+  <select id="selectDepManagerByUserId"  resultType="cn.blingfeng.user.pojo.User">
+     select
+     <include refid="Base_Column_List"/>
+    from user u
+    left join user_role ur on u.id = ur.user_id
+    left join role r on ur.role_id = r.roleid
+    where dep_id in (select dep_id from user where id = #{0})
+    and r.roleid = #{1}
+
+  </select>
+  <select id="selectStaffCountBydepId" parameterType="Long" resultType="Integer">
+    select count(0)
+    from user
+    where dep_id = #{depId}
+  </select>
+
+  <select id="selectStaffList" parameterType="cn.blingfeng.commons.utils.ManagerQueryBean" resultMap="BaseResultMap">
+    select
+    id, username, password, mobile, u.real_name, u.head_image, d.dep_name
+    from user u
+    left join department d
+    on u.dep_id = d.dep_id
+    where u.dep_id = #{user.depId}
+    limit #{startRow},#{pageSize}
+  </select>
 </mapper>

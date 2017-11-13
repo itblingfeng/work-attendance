@@ -42,4 +42,8 @@ public class LoginController {
         SecurityUtils.getSubject().getSession().removeAttribute("userInfo");
         return "redirect:";
     }
+    @RequestMapping("/unauthirized")
+    public String unAuthorized(){
+        return "unauthirized";
+    }
 }

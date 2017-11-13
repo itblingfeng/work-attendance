@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
             subject.login(token);
             subject.getSession().setTimeout(18000000);
         }catch(Exception e){
-            return WorkResult.error(400,e.getMessage());
+            return WorkResult.error(400,"帐号或密码错误");
         }
         return WorkResult.ok();
 
@@ -48,4 +48,29 @@ public class UserServiceImpl implements UserService {
         Integer count = userMapper.checkUserExistByUsername(username);
         return count == 1;
     }
+
+    @Override
+    public WorkResult removeUserById(Long userId) {
+        int result = userMapper.deleteByPrimaryKey(userId);
+        if(result==1) {
+            return WorkResult.ok();
+        }
+        else{
+            return WorkResult.error(500,"删除失败");
+        }
+    }
+
+    @Override
+    public User selectUserById(Long userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        user.setPassword(null);
+        return user;
+    }
+
+    @Override
+    public WorkResult updateByUser(User user) {
+        userMapper.updateByPrimaryKeySelective(user);
+        return WorkResult.ok();
+    }
+
 }

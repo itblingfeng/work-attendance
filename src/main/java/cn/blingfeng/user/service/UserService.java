@@ -9,4 +9,10 @@ public interface UserService {
     User selectUserByUsername(String username);
 
     Boolean checkUserExistByUsername(String username);
+
+    WorkResult removeUserById(Long userId);
+
+    User selectUserById(Long userId);
+
+    WorkResult updateByUser(User user);
 }

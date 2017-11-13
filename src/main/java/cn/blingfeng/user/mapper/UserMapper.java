@@ -1,5 +1,6 @@
 package cn.blingfeng.user.mapper;
 
+import cn.blingfeng.commons.utils.ManagerQueryBean;
 import cn.blingfeng.user.pojo.User;
 
 import java.util.Date;
@@ -25,7 +26,11 @@ public interface UserMapper {
     Long selectUserIdByUsername(String username);
     Integer checkUserExistByUsername(String username);
 
+    User selectDepManagerByUserId(Long userId,Long mgrRoleId);
 
+    int  selectStaffCountBydepId(Long depId);
+
+    List<User> selectStaffList(ManagerQueryBean managerQueryBean);
 
 
 }

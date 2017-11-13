@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>已发送</title>
+  <title>垃圾箱</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -32,13 +32,145 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-#include("common.vm")
-  <!-- Content Wrapper. Contains page content -->
+
+    <!-- Main Header -->
+    <header class="main-header">
+
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- Messages: style can be found in dropdown.less-->
+                    <li class="dropdown messages-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="label label-success" id="newMailCount"></span>
+                        </a>
+                    </li>
+                    <!-- /.messages-menu -->
+
+
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img src="" class="user-image" alt="User Image" id="userimg">
+                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <span class="hidden-xs" id="realname"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- The user image in the menu -->
+                            <li class="user-header">
+                                <img src="/static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                                <p>
+                                    Alexander Pierce - Web Developer
+                                    <small>Member since Nov. 2012</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <div class="row">
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Followers</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Sales</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Friends</a>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="${rc.contextPath}/login/signOut" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Control Sidebar Toggle Button -->
+                    <li>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="" class="img-circle" alt="User Image" id="userimg_left">
+                </div>
+                <div class="pull-left info">
+                    <p id = "realname_left"></p>
+                    <!-- Status -->
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+
+            <!-- search form (Optional) -->
+            <form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+                </div>
+            </form>
+            <!-- /.search form -->
+
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu" id="menu">
+                <li class="header">HEADER</li>
+                <!-- Optionally, you can add icons to the links -->
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-edit text-green"></i> <span>考勤打卡</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu" id="attend">
+                        <li><a href="${rc.contextPath}/attence"><i class="fa fa-calendar-times-o text-red"></i> 打卡记录</a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li><a href="${rc.contextPath}/mail"><i class="fa fa-envelope text-blue"></i> <span>邮箱</span></a></li>
+
+            </ul>
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+
+    <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        邮箱
+        垃圾箱
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -63,11 +195,11 @@
             </div>
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                <li><a href="/mail"><i class="fa fa-inbox"></i> 收件箱
+                <li><a href="${rc.contextPath}/mail"><i class="fa fa-inbox"></i> 收件箱
                   <span class="label label-primary pull-right" id="unreadcount"></span></a></li>
-                <li><a href="/mail/send"><i class="fa fa-envelope-o"></i> 发送邮件</a></li>
-                <li><a href="/mail/sendbox"><i class="fa fa-file-text-o"></i> 已发送</a></li>
-                <li  class="active"><a href="/mail/trashbox"><i class="fa fa-trash-o"></i> 垃圾箱 <span class="label label-warning pull-right">65</span></a></li>
+                <li><a href="${rc.contextPath}/mail/send"><i class="fa fa-envelope-o"></i> 发送邮件</a></li>
+                <li><a href="${rc.contextPath}/mail/sendbox"><i class="fa fa-file-text-o"></i> 已发送</a></li>
+                <li  class="active"><a href="${rc.contextPath}/mail/trashbox"><i class="fa fa-trash-o"></i> 垃圾箱 </a></li>
               </ul>
             </div>
             <!-- /.box-body -->
@@ -97,7 +229,7 @@
         <div class="col-md-9">
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Inbox</h3>
+              <h3 class="box-title">垃圾箱</h3>
 
               <div class="box-tools pull-right">
                 <div class="has-feedback">
@@ -114,12 +246,10 @@
                 <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
                 </button>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o" id="trashMail"></i></button>
                 </div>
                 <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                <button type="button" class="btn btn-default btn-sm" id="refresh"><i class="fa fa-refresh" ></i></button>
                 <!-- /.pull-right -->
               </div>
               <div class="table-responsive mailbox-messages">
@@ -127,7 +257,7 @@
                   <tbody>
                     #foreach($mail in $mailQueryBean.getItems())
                   <tr>
-                    <td><input type="checkbox"></td>
+                      <td><input type="checkbox" name="checkmail" value="$mail.mailid"></td>
                     <td class="mailbox-star">
                         #if($mail.status==0)
                             <i class="fa fa-star text-yellow"/>
@@ -135,7 +265,7 @@
                                 <i class="fa fa-star-o text-yellow"/>
                         #end
                     </td>
-                    <td class="mailbox-name"><a href="/mail/read/$mail.mailid?flag=1">$mail.sendUsername</a></td>
+                    <td class="mailbox-name"><a>$mail.sendUsername</a></td>
                     <td class="mailbox-subject"><b>$mail.title</b>
                     </td>
                     <td class="mailbox-attachment">
@@ -389,58 +519,125 @@
 <script src="/static/dist/js/app.min.js"></script>
 <!-- iCheck -->
 <script src="/static/plugins/iCheck/icheck.min.js"></script>
-<script src="/static/user/js/user.js"/>
+
 <!-- Page Script -->
-<script>
-  $(function () {
-    //Enable iCheck plugin for checkboxes
-    //iCheck for checkbox and radio inputs
 
-    $('.mailbox-messages input[type="checkbox"]').iCheck({
-      checkboxClass: 'icheckbox_flat-blue',
-      radioClass: 'iradio_flat-blue'
-    });
-      if($shiro.hasPermission("attence:approve")){
-          $("#attend").append('<li><a href="/attence/approve"><i class="fa fa-spinner text-blue"></i>补签审批</a></li>');
-      }
-    //Enable check and uncheck all functionality
-    $(".checkbox-toggle").click(function () {
-      var clicks = $(this).data('clicks');
-      if (clicks) {
-        //Uncheck all checkboxes
-        $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
-        $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
-      } else {
-        //Check all checkboxes
-        $(".mailbox-messages input[type='checkbox']").iCheck("check");
-        $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
-      }
-      $(this).data("clicks", !clicks);
-    });
-
-    //Handle starring for glyphicon and font awesome
-    $(".mailbox-star").click(function (e) {
-      e.preventDefault();
-      //detect type
-      var $this =; $(this).find("a > i");
-      var glyph = $this.hasClass("glyphicon");
-      var fa = $this.hasClass("fa");
-
-      //Switch states
-      if (glyph) {
-        $this.toggleClass("glyphicon-star")
-        $this.toggleClass("glyphicon-star-empty")
-      }
-
-      if (fa) {
-        $this.toggleClass("fa-star")
-        $this.toggleClass("fa-star-o")
-      }
-    });
-  });
-</script>
 <!-- AdminLTE for demo purposes -->
 <script src="/static/dist/js/demo.js"></script>
+<script>
+    $(function () {
 
+        $("#trashMail").click(function () {
+            var ids = [];
+            $('input[name="checkmail"]:checked').each(function () {
+                ids.push($(this).val());
+            });
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                traditional: true,//这里设置为true
+                data: {"ids": ids},
+                url: "${rc.contextPath}/mail/trashmail",
+                success: function (data) {
+                    if (data.status = 200) {
+                        location.href = "${rc.contextPath}/mail/trashbox";
+                    }
+                }
+            });
+        });
+        $('.mailbox-messages input[type="checkbox"]').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
+
+        //Enable check and uncheck all functionality
+        $(".checkbox-toggle").click(function () {
+            var clicks = $(this).data('clicks');
+            if (clicks) {
+                //Uncheck all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+                $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+            } else {
+                //Check all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("check");
+                $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+            }
+            $(this).data("clicks", !clicks);
+        });
+
+        //Handle starring for glyphicon and font awesome
+        $(".mailbox-star").click(function (e) {
+            e.preventDefault();
+            //detect type
+            var $this =; $(this).find("a > i");
+            var glyph = $this.hasClass("glyphicon");
+            var fa = $this.hasClass("fa");
+
+            //Switch states
+            if (glyph) {
+                $this.toggleClass("glyphicon-star")
+                $this.toggleClass("glyphicon-star-empty")
+            }
+
+            if (fa) {
+                $this.toggleClass("fa-star")
+                $this.toggleClass("fa-star-o")
+            }
+        });
+    })
+
+
+
+</script>
+<script>
+    $(function () {
+        if($shiro.hasPermission("attence:approve")){
+            $("#attend").append('<li><a href="${rc.contextPath}/attence/approve"><i class="fa fa-spinner text-blue"></i>补签审批</a></li>');
+        }
+        if($shiro.hasPermission("staff:list")){
+            $("#menu").append('<li><a href="${rc.contextPath}/staff"><i class="fa fa-gear"></i> <span>人事管理</span></a></li>');
+        }
+        $("#refresh").click(function () {
+            location.href="${rc.contextPath}/mail/trashbox";
+        })
+    })
+</script>
+<script>
+    $(function () {
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: {},
+            contentType: "application/json",
+            url: "${rc.contextPath}/user/userInfo",
+            success:function (data) {
+                $("#realname").html(data.realName);
+                $("#userimg").attr("src",data.headImage);
+                $("#realname_left").html(data.realName);
+                $("#userimg_left").attr("src",data.headImage);
+            }
+        }),
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    data: {},
+                    contentType: "application/json",
+                    url: "${rc.contextPath}/mail/newmail",
+                    success:function (data) {
+                        var count = data.data;
+
+
+                        if(count !=0) {
+                            $("#newMailCount").html(count);
+                            $("#unreadcount").html(count);
+                        }else{
+                        }
+                    }
+                })
+
+
+    });
+</script>
 </body>
 </html>

@@ -4,6 +4,8 @@ import cn.blingfeng.attence.mapper.AttendMapper;
 import cn.blingfeng.attence.pojo.Attend;
 import cn.blingfeng.commons.utils.PageQueryBean;
 import cn.blingfeng.commons.vo.WorkFlowQueryVo;
+import cn.blingfeng.user.mapper.UserMapper;
+import cn.blingfeng.user.pojo.User;
 import cn.blingfeng.workflow.mapper.ReAttendMapper;
 import cn.blingfeng.workflow.pojo.ReAttend;
 import cn.blingfeng.workflow.service.WorkFlowService;
@@ -11,6 +13,7 @@ import org.activiti.engine.*;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -31,29 +34,46 @@ public class WorkFlowServiceImpl implements WorkFlowService {
     /**
      * 补签流id
      */
-    private final String REATTEND_FLOW_START = "reattend";
+    @Value("${REATTEND_FLOW_START}")
+    private String REATTEND_FLOW_START;
     /**
      * 补签处理状态 1为处理中
      */
-    private final Byte REATTEND_STATUS_DEAL = 1;
+    @Value("${REATTEND_STATUS_DEAL}")
+    private Byte REATTEND_STATUS_DEAL;
     /**
      * 补签处理状态 2为接受
      */
-    private final Byte REATTEND_STATUS_ACCEPT = 2;
+    @Value("${REATTEND_STATUS_ACCEPT}")
+    private Byte REATTEND_STATUS_ACCEPT;
     /**
      * 补签处理状态 3为拒绝
      */
-    private final Byte REATTEND_STATUS_REFUSE = 3;
+    @Value("${REATTEND_STATUS_REFUSE}")
+    private Byte REATTEND_STATUS_REFUSE;
     /**
      * 补签参数reattend map key
      */
-    private final String MAP_KEY_REATTEND = "reattend";
+    @Value("${MAP_KEY_REATTEND}")
+    private String MAP_KEY_REATTEND;
     /**
      * 补签参数 当前处理人
      */
-    private final String MAP_KEY_CURRENT_HANDLER = "current_handler";
-    private final Byte ATTEND_STATUS_NORMAL = 1;
+    @Value("${MAP_KEY_CURRENT_HANDLER}")
+    private String MAP_KEY_CURRENT_HANDLER;
 
+    /**
+     * 部门经理的角色Id
+     */
+    @Value("${ROLE_ID_MANAGER}")
+    private long ROLE_ID_MANAGER;
+    @Value("${ATTEND_STATUS_NORMAL}")
+    private Byte ATTEND_STATUS_NORMAL;
+
+    @Value("${ATTEND_STATUS_DEALING}")
+    private Byte ATTEND_STATUS_DEALING;
+    @Value("${Attend_STATUS_EXP}")
+    private Byte Attend_STATUS_EXP;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @Autowired
     private TaskService taskService;
@@ -72,22 +92,25 @@ public class WorkFlowServiceImpl implements WorkFlowService {
     @Autowired
     private AttendMapper attendMapper;
 
-    private final Byte ATTEND_STATUS_DEALING = 0;
-
-    private final Byte Attend_STATUS_EXP = 2;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public void reAttendStart(ReAttend reAttend) throws ParseException {
-        reAttend.setCurrentHandler("laowang666");
+        /**
+         * 查询该员工此时的部门经理
+         */
+        User user = userMapper.selectDepManagerByUserId(reAttend.getUserId(), ROLE_ID_MANAGER);
+        reAttend.setCurrentHandler(user.getUsername());
         reAttend.setAttendDate(simpleDateFormat.parse(reAttend.getAttendDate_string()));
         reAttend.setStatus(REATTEND_STATUS_DEAL);
         try {
-             reAttendMapper.insertSelective(reAttend);
-             Attend attend = new Attend();
-             attend.setId(reAttend.getAttendId());
-             attend.setAttendStatus(ATTEND_STATUS_DEALING);
-             attendMapper.updateByPrimaryKeySelective(attend);
-        }catch(Exception e){
+            reAttendMapper.insertSelective(reAttend);
+            Attend attend = new Attend();
+            attend.setId(reAttend.getAttendId());
+            attend.setAttendStatus(ATTEND_STATUS_DEALING);
+            attendMapper.updateByPrimaryKeySelective(attend);
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
@@ -102,19 +125,19 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 
     @Override
     public WorkFlowQueryVo listReAttend(WorkFlowQueryVo workFlowQueryVo) {
-        List<Task> taskList = taskService.createTaskQuery().processVariableValueEquals(workFlowQueryVo.getUsername()).listPage(workFlowQueryVo.getStartRow(),workFlowQueryVo.getPageSize());
+        List<Task> taskList = taskService.createTaskQuery().processVariableValueEquals(workFlowQueryVo.getUsername()).listPage(workFlowQueryVo.getStartRow(), workFlowQueryVo.getPageSize());
         List<ReAttend> reAttendList = new ArrayList<>();
         //若taskList不为空则遍历放入集合
-        if(!CollectionUtils.isEmpty(taskList)){
-            for(Task task:taskList){
+        if (!CollectionUtils.isEmpty(taskList)) {
+            for (Task task : taskList) {
                 Map<String, Object> variable = taskService.getVariables(task.getId());
-               ReAttend reAttend = (ReAttend) variable.get(MAP_KEY_REATTEND);
-               reAttend.setTaskId(task.getId());
-               reAttendList.add(reAttend);
+                ReAttend reAttend = (ReAttend) variable.get(MAP_KEY_REATTEND);
+                reAttend.setTaskId(task.getId());
+                reAttendList.add(reAttend);
             }
         }
 //        手动分页
-       workFlowQueryVo.setItems(reAttendList);
+        workFlowQueryVo.setItems(reAttendList);
         workFlowQueryVo.setTotalRows(reAttendList.size());
         return workFlowQueryVo;
     }
@@ -125,11 +148,11 @@ public class WorkFlowServiceImpl implements WorkFlowService {
         ReAttend reAttend = (ReAttend) variable.get(MAP_KEY_REATTEND);
         Attend attend = new Attend();
         attend.setId(reAttend.getAttendId());
-        if(result){
+        if (result) {
             reAttend.setStatus(REATTEND_STATUS_ACCEPT);
             attend.setAttendStatus(ATTEND_STATUS_NORMAL);
 //            修改attence表中的状态为正常
-        }else{
+        } else {
             reAttend.setStatus(REATTEND_STATUS_REFUSE);
             attend.setAttendStatus(Attend_STATUS_EXP);
         }

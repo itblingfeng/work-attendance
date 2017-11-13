@@ -38,7 +38,7 @@
         <!-- 必须的（1 required） -->
         <!-- java模型生成器 -->
         <!-- targetProject:自动生成代码的位置 -->
-        <javaModelGenerator targetPackage="cn.blingfeng.mail.pojo"
+        <javaModelGenerator targetPackage="cn.blingfeng.user.pojo"
                             targetProject="E:\work-attendance\src\main\java"
                              >
             <!-- TODO enableSubPackages:是否让schema作为包的后缀 -->
@@ -49,13 +49,13 @@
 
         <!-- 必须的（1 required） -->
         <!-- map xml 生成器 -->
-        <sqlMapGenerator targetPackage="cn.blingfeng.mail.mapper"
+        <sqlMapGenerator targetPackage="cn.blingfeng.user.mapper"
                          targetProject="E:\work-attendance\src\main\java">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
         <!-- 可选的（0 or 1） -->
         <!-- mapper 或者就是dao接口生成器 -->
-        <javaClientGenerator targetPackage="cn.blingfeng.mail.mapper"
+        <javaClientGenerator targetPackage="cn.blingfeng.user.mapper"
                              targetProject="E:\work-attendance\src\main\java"
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="true" />
@@ -65,7 +65,19 @@
         <!-- pojo 实体生成器 -->
         <!-- tableName:用于自动生成代码的数据库表；domainObjectName:对应于数据库表的javaBean类名 -->
         <!-- schema即为数据库名 可不写 -->
-        <table  tableName="mail" domainObjectName="Mail"
+        <table  tableName="user" domainObjectName="User"
+                enableInsert="true" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+                enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table  tableName="role" domainObjectName="Role"
+                enableInsert="true" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+                enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table  tableName="permission" domainObjectName="Permission"
+                enableInsert="true" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+                enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table  tableName="department" domainObjectName="Department"
                 enableInsert="true" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
                 enableSelectByExample="false" selectByExampleQueryId="false">
             <!-- 忽略字段 可选的（0 or 1） -->

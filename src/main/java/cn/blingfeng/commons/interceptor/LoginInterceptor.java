@@ -2,6 +2,7 @@ package cn.blingfeng.commons.interceptor;
 
 import cn.blingfeng.user.pojo.User;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -10,13 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 
 public class LoginInterceptor implements HandlerInterceptor {
 /**    放行登入入口字符串  */
-    private final String PASS_LOGIN = "/login";
+
+    private  String PASS_LOGIN ="/login";
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         if (httpServletRequest.getRequestURI().contains(PASS_LOGIN)) {
             return true;
         }
-        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("userInfo");
+        User user = cn.blingfeng.commons.utils.SecurityUtils.getUser();
         if (user != null) {
             return true;
         }

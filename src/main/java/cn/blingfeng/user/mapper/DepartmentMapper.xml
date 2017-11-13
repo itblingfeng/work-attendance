@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.blingfeng.user.mapper.DepartmentMapper" >
+  <resultMap id="BaseResultMap" type="cn.blingfeng.user.pojo.Department" >
+    <id column="dep_id" property="depId" jdbcType="BIGINT" />
+    <result column="dep_name" property="depName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    dep_id, dep_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from department
+    where dep_id = #{depId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from department
+    where dep_id = #{depId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.blingfeng.user.pojo.Department" >
+    insert into department (dep_id, dep_name)
+    values (#{depId,jdbcType=BIGINT}, #{depName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.blingfeng.user.pojo.Department" >
+    insert into department
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="depId != null" >
+        dep_id,
+      </if>
+      <if test="depName != null" >
+        dep_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="depId != null" >
+        #{depId,jdbcType=BIGINT},
+      </if>
+      <if test="depName != null" >
+        #{depName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.blingfeng.user.pojo.Department" >
+    update department
+    <set >
+      <if test="depName != null" >
+        dep_name = #{depName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dep_id = #{depId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.blingfeng.user.pojo.Department" >
+    update department
+    set dep_name = #{depName,jdbcType=VARCHAR}
+    where dep_id = #{depId,jdbcType=BIGINT}
+  </update>
+  <select id="selectDepList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from department
+  </select>
+</mapper>

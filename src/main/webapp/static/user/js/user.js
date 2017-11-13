@@ -5,7 +5,7 @@ $(function () {
         dataType: "json",
         data: {},
         contentType: "application/json",
-        url: "/user/userInfo",
+        url: "${rc.contextPath}/user/userInfo",
         success:function (data) {
             $("#realname").html(data.realName);
             $("#userimg").attr("src",data.headImage);
@@ -18,7 +18,7 @@ $(function () {
         dataType: "json",
         data: {},
         contentType: "application/json",
-        url: "/mail/newmail",
+        url: "${rc.contextPath}/mail/newmail",
         success:function (data) {
             var count = data.data;
 
@@ -26,9 +26,7 @@ $(function () {
             if(count !=0) {
                 $("#newMailCount").html(count);
                 $("#unreadcount").html(count);
-                $("#newMailMessages").html("you have " + count + " message");
             }else{
-                $("#newMailMessages").html("no message");
             }
         }
     })

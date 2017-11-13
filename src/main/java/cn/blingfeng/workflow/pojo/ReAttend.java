@@ -29,6 +29,16 @@ public class ReAttend implements Serializable{
 
     private String taskId;
 
+    private Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public String getTaskId() {
         return taskId;
     }
